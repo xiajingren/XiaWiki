@@ -1,0 +1,59 @@
+﻿@page
+@model BlogX.WebUI.Pages.Admin.Posts.IndexModel
+@{
+    ViewData["Title"] = "Post index";
+
+    var index = 0;
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table table-striped table-hover">
+    <caption>List of users</caption>
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.PostVMs[0].Title)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.PostVMs[0].Content)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.PostVMs[0].Author)
+            </th scope="col">
+            <th>
+                @Html.DisplayNameFor(model => model.PostVMs[0].CreatedTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PostVMs)
+        {
+            <tr>
+                <th scope="row">@(++index)</th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedTime)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

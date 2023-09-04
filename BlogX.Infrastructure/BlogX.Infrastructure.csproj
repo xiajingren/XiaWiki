@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Markdig" Version="0.33.0" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.10" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\BlogX.Core\BlogX.Core.csproj" />
+	  <ProjectReference Include="..\BlogX.Shared\BlogX.Shared.csproj" />
+	</ItemGroup>
+
+</Project>

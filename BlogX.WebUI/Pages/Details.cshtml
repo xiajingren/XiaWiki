@@ -1,0 +1,16 @@
+﻿@page "/{id:int}"
+@model BlogX.WebUI.Pages.DetailsModel
+@{
+}
+
+<article>
+    <h3>@Model.PostVM.Title</h3>
+
+    <p class="text-secondary">@Model.PostVM.Author 发布于 @Model.PostVM.CreatedTime 最后更新于 @Model.PostVM.UpdatedTime</p>
+
+    <hr/>
+
+    <div>
+        @Html.Raw(Model.PostVM.Content)
+    </div>
+</article>
