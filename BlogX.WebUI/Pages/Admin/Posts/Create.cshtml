@@ -20,7 +20,7 @@
     </div>
     <div class="col-12">
         <label asp-for="PostVM.Content" class="control-label"></label>
-        @*<textarea id="editor" asp-for="PostVM.Content" class="form-control"></textarea>*@
+        <textarea style="display:none;" id="content_textarea" asp-for="PostVM.Content" class="form-control"></textarea>
         <div id="editor"></div>
         <span asp-validation-for="PostVM.Content" class="text-danger"></span>
     </div>
@@ -30,7 +30,7 @@
         <span asp-validation-for="PostVM.Author" class="text-danger"></span>
     </div>
     <div class="col-12">
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="Create" class="btn btn-primary" onclick="onsumbit()"/>
         <a asp-page="Index" role="button" class="btn btn-secondary">Back to List</a>
     </div>
 </form>
@@ -44,12 +44,11 @@
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
     @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        //await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
     <script>
-        const Editor = toastui.Editor;
-        const editor = new Editor({
+        const editor = new toastui.Editor({
             el: document.querySelector('#editor'),
             height: '100vh',
             initialEditType: 'markdown',
@@ -63,6 +62,9 @@
             }
         });
 
+        function onsumbit(){
+            document.querySelector('#content_textarea').value = editor.getMarkdown();
+        }
 
         async function fileUpload(file) {
             const formData = new FormData();
