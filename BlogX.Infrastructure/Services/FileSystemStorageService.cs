@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlogX.Infrastructure.Services
 {
-    internal class BlobStorageService : IBlobStorageService
+    internal class FileSystemStorageService : IBlobStorageService
     {
         public async Task<Stream> GetAsync(string bolbName)
         {

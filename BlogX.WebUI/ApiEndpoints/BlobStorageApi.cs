@@ -28,13 +28,13 @@ namespace BlogX.WebUI.ApiEndpoints
         {
             using var stream = file.OpenReadStream();
 
-            var bolbName = $"{Guid.NewGuid():N}{Path.GetExtension(file.FileName)}";
+            var blobName = $"{Guid.NewGuid():N}{Path.GetExtension(file.FileName)}";
 
-            var success = await blobStorageService.PutAsync(bolbName, stream);
+            var success = await blobStorageService.PutAsync(blobName, stream);
             if (!success)
                 return Results.BadRequest();
 
-            return Results.Accepted($"/api/blob/{bolbName}", bolbName);
+            return Results.Accepted($"/api/blob/{blobName}", blobName);
         }
 
     }

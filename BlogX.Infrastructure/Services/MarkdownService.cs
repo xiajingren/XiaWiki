@@ -1,5 +1,8 @@
 ﻿using BlogX.Core.Interfaces;
 using Markdig;
+using Markdig.Renderers.Normalize;
+using Markdig.Syntax;
+using Markdig.Syntax.Inlines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +23,29 @@ namespace BlogX.Infrastructure.Services
             return Markdown.ToPlainText(markdown);
         }
 
-        public string ConvertImageUrl(string markdown, Func<string, Task<string>> covertFunc)
+        public async Task<string> ConvertImageUrlAsync(string markdown, Func<string, Task<string>> covertFunc)
         {
-            return markdown;
+            var document = Markdown.Parse(markdown);
+
+            foreach (var node in document)
+            {
+                if (node is not ParagraphBlock { Inline: { } } paragraphBlock) continue;
+
+                foreach (var inline in paragraphBlock.Inline)
+                {
+                    if (inline is not LinkInline { IsImage: true } linkInline) continue;
+
+                    if (linkInline.Url == null) continue;
+
+                    linkInline.Url = await covertFunc(linkInline.Url);
+                }
+            }
+
+            using var writer = new StringWriter();
+            var render = new NormalizeRenderer(writer);
+            render.Render(document);
+
+            return writer.ToString();
         }
     }
 }

@@ -21,7 +21,10 @@ namespace BlogX.Infrastructure
 
             services.AddSingleton<IMarkdownService, MarkdownService>();
 
-            services.AddSingleton<IBlobStorageService, BlobStorageService>();
+            services.AddSingleton<IBlobStorageService, FileSystemStorageService>();
+
+            services.AddHttpClient();
+            services.AddSingleton<IDownloadService, DownloadService>();
         }
 
         public static void UseBlogX(this IApplicationBuilder app)

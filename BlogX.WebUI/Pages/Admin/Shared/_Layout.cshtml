@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,10 +10,12 @@
     <link rel="stylesheet" href="~/BlogX.WebUI.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-    @await RenderSectionAsync("OtherHeads", required:false)
+    @await RenderSectionAsync("Heads", required:false)
 </head>
+
 <body>
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBothOptions"
+        aria-labelledby="offcanvasWithBothOptionsLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -55,7 +58,8 @@
     </div>
 
     <div class="position-fixed start-0 top-50">
-        <a role="button" class="link-opacity-50 link-opacity-100-hover" href="#offcanvasWithBothOptions" data-bs-toggle="offcanvas" aria-controls="offcanvasWithBothOptions">
+        <a role="button" class="link-opacity-50 link-opacity-100-hover" href="#offcanvasWithBothOptions"
+            data-bs-toggle="offcanvas" aria-controls="offcanvasWithBothOptions">
             <i class="bi bi-chevron-double-right" style="font-size:2rem;"></i>
         </a>
     </div>
@@ -70,4 +74,5 @@
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

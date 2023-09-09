@@ -30,12 +30,12 @@
         <span asp-validation-for="PostVM.Author" class="text-danger"></span>
     </div>
     <div class="col-12">
-        <input type="submit" value="Create" class="btn btn-primary" onclick="onsumbit()"/>
+        <input type="submit" value="Create" class="btn btn-primary" onclick="onsumbit()" />
         <a asp-page="Index" role="button" class="btn btn-secondary">Back to List</a>
     </div>
 </form>
 
-@section OtherHeads{
+@section Heads{
     <!-- Editor's Style -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 }
@@ -47,50 +47,50 @@
         //await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-    <script>
-        const editor = new toastui.Editor({
-            el: document.querySelector('#editor'),
-            height: '100vh',
-            initialEditType: 'markdown',
-            previewStyle: 'vertical',
-            hooks: {
-                addImageBlobHook: async function (file, callback) {
-                    const r = await fileUpload(file)
+<script>
+    const editor = new toastui.Editor({
+        el: document.querySelector('#editor'),
+        height: '100vh',
+        initialEditType: 'markdown',
+        previewStyle: 'vertical',
+        hooks: {
+            addImageBlobHook: async function (file, callback) {
+                const r = await fileUpload(file)
 
-                    callback(r);
-                },
-            }
-        });
-
-        function onsumbit(){
-            document.querySelector('#content_textarea').value = editor.getMarkdown();
+                callback(r);
+            },
         }
+    });
 
-        async function fileUpload(file) {
-            const formData = new FormData();
+    function onsumbit() {
+        document.querySelector('#content_textarea').value = editor.getMarkdown();
+    }
 
-            formData.append("file", file);
+    async function fileUpload(file) {
+        const formData = new FormData();
 
-            try {
-                const response = await fetch("/api/blob", {
-                    method: 'POST',
-                    body: formData,
-                    //headers: {
-                    //    RequestVerificationToken: '@requestToken'
-                    //}
-                });
+        formData.append("file", file);
 
-                console.log(response)
+        try {
+            const response = await fetch("/api/blob", {
+                method: 'POST',
+                body: formData,
+                //headers: {
+                //    RequestVerificationToken: '@requestToken'
+                //}
+            });
 
-                if(!response.ok)
-                    return "";
+            console.log(response)
 
-                return response.headers.get("Location")
-            } catch (error) {
-                console.error('Error:', error);
+            if (!response.ok)
+                return "";
 
-                return ""
-            }
+            return response.headers.get("Location")
+        } catch (error) {
+            console.error('Error:', error);
+
+            return ""
         }
-    </script>
+    }
+</script>
 }
