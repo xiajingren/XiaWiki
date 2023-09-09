@@ -19,5 +19,10 @@ namespace BlogX.Infrastructure.Services
         {
             return Markdown.ToPlainText(markdown);
         }
+
+        public string ConvertImageUrl(string markdown, Func<string, Task<string>> covertFunc)
+        {
+            return markdown;
+        }
     }
 }

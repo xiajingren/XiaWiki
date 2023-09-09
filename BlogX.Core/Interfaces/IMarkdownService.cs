@@ -11,5 +11,7 @@ namespace BlogX.Core.Interfaces
         string ToHtml(string markdown);
 
         string ToPlainText(string markdown);
+
+        string ConvertImageUrl(string markdown, Func<string, Task<string>> covertFunc);
     }
 }

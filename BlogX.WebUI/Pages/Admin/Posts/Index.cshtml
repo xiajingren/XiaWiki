@@ -20,15 +20,12 @@
                 @Html.DisplayNameFor(model => model.PostVMs[0].Title)
             </th>
             <th scope="col">
-                @Html.DisplayNameFor(model => model.PostVMs[0].Content)
-            </th>
-            <th scope="col">
                 @Html.DisplayNameFor(model => model.PostVMs[0].Author)
             </th scope="col">
             <th>
                 @Html.DisplayNameFor(model => model.PostVMs[0].CreatedTime)
             </th>
-            <th></th>
+            <th>Handle</th>
         </tr>
     </thead>
     <tbody>
@@ -38,9 +35,6 @@
                 <th scope="row">@(++index)</th>
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Content)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Author)

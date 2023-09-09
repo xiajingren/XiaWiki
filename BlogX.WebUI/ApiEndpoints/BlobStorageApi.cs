@@ -34,7 +34,7 @@ namespace BlogX.WebUI.ApiEndpoints
             if (!success)
                 return Results.BadRequest();
 
-            return Results.Accepted($"{context.Request.Scheme}://{context.Request.Host}/api/blob/{bolbName}", bolbName);
+            return Results.Accepted($"/api/blob/{bolbName}", bolbName);
         }
 
     }
