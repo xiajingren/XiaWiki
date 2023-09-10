@@ -1,5 +1,7 @@
 ﻿using BlogX.Core.Interfaces;
+using BlogX.Infrastructure.Config;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +12,31 @@ namespace BlogX.Infrastructure.Services
 {
     internal class FileSystemStorageService : IBlobStorageService
     {
+        private readonly DefaultAppConfig _defaultAppConfig; //todo:专门一个config
+
+        public FileSystemStorageService(IOptions<DefaultAppConfig> defaultAppConfig)
+        {
+            _defaultAppConfig = defaultAppConfig.Value;
+        }
+
         public async Task<Stream> GetAsync(string bolbName)
         {
-            var stream = File.OpenRead(bolbName);
+            var path = Path.Combine(_defaultAppConfig.BlobPath, bolbName);
+
+            //todo: is null
+            // if (!File.Exists(path))
+            //     return null;
+
+            var stream = File.OpenRead(path);
 
             return await Task.FromResult(stream);
         }
 
         public async Task<bool> PutAsync(string bolbName, Stream stream)
         {
-            using var fileStream = File.OpenWrite(bolbName);
+            var path = Path.Combine(_defaultAppConfig.BlobPath, bolbName);
 
+            using var fileStream = File.OpenWrite(path);
             await stream.CopyToAsync(fileStream);
 
             return true;
