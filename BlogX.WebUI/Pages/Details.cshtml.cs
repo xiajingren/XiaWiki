@@ -29,7 +29,7 @@ namespace BlogX.WebUI.Pages
         public async Task<IActionResult> OnGetAsync()
         {
             var post = await _postRepository.GetByIdAsync(Id);
-            if(post == null) 
+            if (post == null)
                 return NotFound();
 
             PostVM = PostVM.Mapping(post);
