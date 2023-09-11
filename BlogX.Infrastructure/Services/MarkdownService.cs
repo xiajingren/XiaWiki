@@ -35,7 +35,7 @@ namespace BlogX.Infrastructure.Services
                 {
                     if (inline is not LinkInline { IsImage: true } linkInline) continue;
 
-                    if (linkInline.Url == null) continue;
+                    if (string.IsNullOrWhiteSpace(linkInline.Url)) continue;
 
                     linkInline.Url = await covertFunc(linkInline.Url);
                 }
@@ -47,5 +47,29 @@ namespace BlogX.Infrastructure.Services
 
             return writer.ToString();
         }
+
+        public List<string> GetImageUrls(string markdown)
+        {
+            var imageUrls = new List<string>();
+
+            var document = Markdown.Parse(markdown);
+
+            foreach (var node in document)
+            {
+                if (node is not ParagraphBlock { Inline: { } } paragraphBlock) continue;
+
+                foreach (var inline in paragraphBlock.Inline)
+                {
+                    if (inline is not LinkInline { IsImage: true } linkInline) continue;
+
+                    if (string.IsNullOrWhiteSpace(linkInline.Url)) continue;
+
+                    imageUrls.Add(linkInline.Url);
+                }
+            }
+
+            return imageUrls;
+        }
     }
 }
+

@@ -14,7 +14,11 @@ namespace BlogX.WebUI.Models
 
         public string Content { get; set; } = default!;
 
-        public string Author { get; set; } = default!;
+        public string? Author { get; set; }
+
+        public string? Summary { get; set; }
+
+        public string? Img { get; set; }
 
         public static PostVM Mapping(Post post)
         {
@@ -26,6 +30,8 @@ namespace BlogX.WebUI.Models
                 Title = post.Title,
                 Content = post.Content,
                 Author = post.Author,
+                Summary = post.Summary,
+                Img = post.Img,
             };
         }
     }

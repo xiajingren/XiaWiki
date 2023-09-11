@@ -15,12 +15,17 @@ namespace BlogX.Core.Entities
 
         public string Content { get; set; }
 
-        public string Author { get; set; } = "xhznl";
+        public string? Author { get; set; }
 
-        public Post(string title, string content)
+        public string Summary { get; set; }
+
+        public string? Img { get; set; }
+
+        public Post(string title, string content, string summary)
         {
             Title = title;
             Content = content;
+            Summary = summary;
         }
     }
 }

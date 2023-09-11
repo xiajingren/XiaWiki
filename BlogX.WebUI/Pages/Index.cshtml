@@ -9,19 +9,27 @@
         @foreach (var post in Model.PostVMs)
         {
             <div class="card mb-3">
-                <div class="row">
-                    <div class="col-sm-4 d-flex align-items-center">
-                        <img src="https://img2.baidu.com/it/u=2006376456,1831574063&fm=253&fmt=auto&app=138&f=JPEG?w=880&h=500" class="card-img ms-sm-3" alt="...">
-                    </div>
-                    <div class="col-sm-8">
+                <div class="row g-0">
+                    @if (!string.IsNullOrWhiteSpace(post.Img))
+                    {
+                        <div class="col-md-4">
+                            @* <img
+                    src="https://img2.baidu.com/it/u=2006376456,1831574063&fm=253&fmt=auto&app=138&f=JPEG?w=880&h=500"
+                    class="card-img ms-sm-3" alt="..."> *@
+                            <img src="@post.Img" class="img-fluid rounded-start h-100" alt="...">
+                        </div>
+                    }
+                    <div class="col">
                         <div class="card-body d-flex flex-column h-100">
                             <h5 class="card-title">
-                                <a asp-page="./Details" asp-route-id="@post.Id" class="link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">
+                                <a asp-page="./Details" asp-route-id="@post.Id"
+                                    class="link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">
                                     @post.Title
                                 </a>
                             </h5>
-                            <p class="card-text flex-fill">@post.Content</p>
-                            <p class="card-text text-end text-body-secondary"><small>作者：@post.Author</small><small class="ms-3">更新时间：@post.UpdatedTime</small></p>
+                            <p class="card-text flex-fill">@post.Summary</p>
+                            <p class="card-text text-end text-body-secondary"><small>作者：@post.Author</small><small
+                                    class="ms-3">更新时间：@post.UpdatedTime</small></p>
                         </div>
                     </div>
                 </div>
@@ -77,15 +85,20 @@
                 标签云
             </div>
             <div class="card-body">
-                <a class="text-bg-primary rounded d-inline-block px-2 py-1 m-1 text-decoration-none" href="#">Primary</a>
-                <a class="text-bg-secondary rounded d-inline-block px-2 py-1 m-1 text-decoration-none" href="#">Secondary</a>
-                <a class="text-bg-success rounded d-inline-block px-2 py-1 m-1 text-decoration-none" href="#">Success</a>
+                <a class="text-bg-primary rounded d-inline-block px-2 py-1 m-1 text-decoration-none"
+                    href="#">Primary</a>
+                <a class="text-bg-secondary rounded d-inline-block px-2 py-1 m-1 text-decoration-none"
+                    href="#">Secondary</a>
+                <a class="text-bg-success rounded d-inline-block px-2 py-1 m-1 text-decoration-none"
+                    href="#">Success</a>
                 <a class="text-bg-danger rounded d-inline-block px-2 py-1 m-1 text-decoration-none" href="#">Danger</a>
-                <a class="text-bg-warning rounded d-inline-block px-2 py-1 m-1 text-decoration-none" href="#">Warning</a>
+                <a class="text-bg-warning rounded d-inline-block px-2 py-1 m-1 text-decoration-none"
+                    href="#">Warning</a>
                 <a class="text-bg-info rounded d-inline-block px-2 py-1 m-1 text-decoration-none" href="#">Info</a>
                 <a class="text-bg-light rounded d-inline-block px-2 py-1 m-1 text-decoration-none" href="#">Light</a>
                 <a class="text-bg-dark rounded d-inline-block px-2 py-1 m-1 text-decoration-none" href="#">Dark</a>
-                <a class="border border-success rounded link-body-emphasis text-decoration-none px-2 py-1" href="#">Dark</a>
+                <a class="border border-success rounded link-body-emphasis text-decoration-none px-2 py-1"
+                    href="#">Dark</a>
             </div>
         </div>
     </div>

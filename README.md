@@ -1,9 +1,9 @@
 
-### efcoreÇ¨ÒÆ
+### efcoreè¿ç§»
 
 ``` bash
-## PS \BlogX\BlogX.Infrastructure>
-dotnet-ef migrations add FirstCreateDataBase -s ..\BlogX.WebUI\BlogX.WebUI.csproj
+## /BlogX/BlogX.Infrastructure
+dotnet-ef migrations add FirstCreateDataBase -s ../BlogX.WebUI/BlogX.WebUI.csproj
 ```
 
 

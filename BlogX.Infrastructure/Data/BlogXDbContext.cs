@@ -24,10 +24,8 @@ namespace BlogX.Infrastructure.Data
             if (pendingMigrations.Any())
                 Database.Migrate();
 
-            //if (Posts.Any())
-            //    return;
-
-            Posts.Add(new Post("title " + DateTimeOffset.Now, "hahah " + DateTimeOffset.Now));
+            if (Posts.Any())
+                return;
 
             SaveChanges();
         }

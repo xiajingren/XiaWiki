@@ -43,7 +43,19 @@ namespace BlogX.WebUI.Pages.Admin.Posts
 
             PostVM.Content = await _markdownService.ConvertImageUrlAsync(PostVM.Content, ImageUrlHandle);
 
-            await _postRepository.AddAsync(new Post(PostVM.Title, PostVM.Content));
+            if (string.IsNullOrWhiteSpace(PostVM.Img))
+            {
+                var imgUrls = _markdownService.GetImageUrls(PostVM.Content);
+                PostVM.Img = imgUrls.FirstOrDefault();
+            }
+
+            if (string.IsNullOrWhiteSpace(PostVM.Summary))
+            {
+                var plantText = _markdownService.ToPlainText(PostVM.Content);
+                PostVM.Summary = plantText.Length > 100 ? $"{plantText[..100]}..." : plantText;
+            }
+
+            await _postRepository.AddAsync(new Post(PostVM.Title, PostVM.Content, PostVM.Summary) { Author = PostVM.Author, Img = PostVM.Img });
 
             return RedirectToPage("./Index");
         }
