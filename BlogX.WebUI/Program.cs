@@ -12,9 +12,6 @@ builder.Services.AddBlogX();
 
 var app = builder.Build();
 
-app.UseBlogX();
-app.MapBlogXApi();
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -27,5 +24,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.UseBlogX();
 
 app.Run();

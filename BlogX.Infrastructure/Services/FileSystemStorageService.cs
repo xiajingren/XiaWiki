@@ -12,16 +12,16 @@ namespace BlogX.Infrastructure.Services
 {
     internal class FileSystemStorageService : IBlobStorageService
     {
-        private readonly DefaultAppConfig _defaultAppConfig; //todo:专门一个config
+        private readonly AppConfig _appConfig;
 
-        public FileSystemStorageService(IOptions<DefaultAppConfig> defaultAppConfig)
+        public FileSystemStorageService(AppConfig appConfig)
         {
-            _defaultAppConfig = defaultAppConfig.Value;
+            _appConfig = appConfig;
         }
 
         public async Task<Stream> GetAsync(string bolbName)
         {
-            var path = Path.Combine(_defaultAppConfig.BlobPath, bolbName);
+            var path = Path.Combine(_appConfig.BlobPath, bolbName);
 
             //todo: is null
             // if (!File.Exists(path))
@@ -34,7 +34,7 @@ namespace BlogX.Infrastructure.Services
 
         public async Task<bool> PutAsync(string bolbName, Stream stream)
         {
-            var path = Path.Combine(_defaultAppConfig.BlobPath, bolbName);
+            var path = Path.Combine(_appConfig.BlobPath, bolbName);
 
             using var fileStream = File.OpenWrite(path);
             await stream.CopyToAsync(fileStream);

@@ -1,5 +1,6 @@
 ﻿@page
 @model BlogX.WebUI.Pages.Admin.Posts.EditModel
+@inject BlogX.Infrastructure.Config.AppConfig appConfig
 @{
     ViewData["Title"] = "Edit post";
 }
@@ -70,7 +71,7 @@
         formData.append("file", file);
 
         try {
-            const response = await fetch("/api/blob", {
+            const response = await fetch('@appConfig.BlobUri', {
                 method: 'POST',
                 body: formData,
             });

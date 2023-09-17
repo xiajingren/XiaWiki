@@ -5,6 +5,8 @@ using BlogX.Infrastructure.Data;
 using BlogX.Infrastructure.Repositories;
 using BlogX.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,9 +16,9 @@ namespace BlogX.Infrastructure
 {
     public static class Startup
     {
-        public static void AddBlogX(this IServiceCollection services)
+        public static void AddBlogX(this IServiceCollection services, Action<AppConfig>? options = null)
         {
-            Initialize(services);
+            Initialize(services, options);
 
             AddDbContext(services);
 
@@ -30,28 +32,21 @@ namespace BlogX.Infrastructure
             services.AddSingleton<IDownloadService, DownloadService>();
         }
 
-        private static void Initialize(IServiceCollection services)
+        private static void Initialize(IServiceCollection services, Action<AppConfig>? options = null)
         {
-            var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var appConfig = AppConfig.BuildDefaultAppConfig();
+            options?.Invoke(appConfig);
 
-            var appDataPath = Path.Join(path, ".BlogX");
-            if (!Directory.Exists(appDataPath))
-                Directory.CreateDirectory(appDataPath);
+            if (!Directory.Exists(appConfig.AppDataPath))
+                Directory.CreateDirectory(appConfig.AppDataPath);
 
-            var dataBasePath = Path.Join(appDataPath, "db");
-            if (!Directory.Exists(dataBasePath))
-                Directory.CreateDirectory(dataBasePath);
+            if (!Directory.Exists(appConfig.DataBasePath))
+                Directory.CreateDirectory(appConfig.DataBasePath);
 
-            var blobPath = Path.Join(appDataPath, "blob");
-            if (!Directory.Exists(blobPath))
-                Directory.CreateDirectory(blobPath);
+            if (!Directory.Exists(appConfig.BlobPath))
+                Directory.CreateDirectory(appConfig.BlobPath);
 
-            services.Configure<DefaultAppConfig>(options =>
-            {
-                options.AppDataPath = appDataPath;
-                options.DataBasePath = dataBasePath;
-                options.BlobPath = blobPath;
-            });
+            services.AddSingleton(appConfig);
         }
 
         private static void AddDbContext(IServiceCollection services)
@@ -61,18 +56,47 @@ namespace BlogX.Infrastructure
             // var config = serviceProvider.GetRequiredService<IConfiguration>();
             // services.AddDbContext<BlogXDbContext>(options => options.UseSqlite(config.GetConnectionString("BlogXDb")));
 
-            var defaultAppConfig = serviceProvider.GetRequiredService<IOptions<DefaultAppConfig>>();
-            var dbPath = Path.Join(defaultAppConfig.Value.DataBasePath, "BlogX.db");
+            var appConfig = serviceProvider.GetRequiredService<AppConfig>();
+            var dbPath = Path.Join(appConfig.DataBasePath, "BlogX.db");
             services.AddDbContext<BlogXDbContext>(options => options.UseSqlite($"Data Source={dbPath}"));
         }
 
-        public static void UseBlogX(this IApplicationBuilder app)
+        public static void UseBlogX(this WebApplication app)
         {
+            var appConfig = app.Services.GetRequiredService<AppConfig>();
+
+            app.MapGet(appConfig.BlobUri + "/{blobName}", GetByBlobName);
+            app.MapPost(appConfig.BlobUri, CreateBlob);
+
             //SeedDataInitialize
-            using var scope = app.ApplicationServices.CreateScope();
+            using var scope = app.Services.CreateScope();
             using var db = scope.ServiceProvider.GetRequiredService<BlogXDbContext>();
 
             db.SeedData();
         }
+
+        private static async Task<IResult> GetByBlobName(string blobName, IBlobStorageService blobStorageService)
+        {
+            var stream = await blobStorageService.GetAsync(blobName);
+
+            if (!new FileExtensionContentTypeProvider().TryGetContentType(blobName, out var contentType) || string.IsNullOrEmpty(contentType))
+                contentType = "application/octet-stream";
+
+            return Results.File(stream, contentType);
+        }
+
+        private static async Task<IResult> CreateBlob(IFormFile file, IBlobStorageService blobStorageService, AppConfig appConfig)
+        {
+            using var stream = file.OpenReadStream();
+
+            var blobName = $"{Guid.NewGuid():N}{Path.GetExtension(file.FileName)}";
+
+            var success = await blobStorageService.PutAsync(blobName, stream);
+            if (!success)
+                return Results.BadRequest();
+
+            return Results.Accepted($"{appConfig.BlobUri}/{blobName}", blobName);
+        }
+
     }
 }
