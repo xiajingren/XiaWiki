@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
-
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,72 +7,38 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BlogX.WebUI.styles.css" asp-append-version="true" />
-
-    @await RenderSectionAsync("Heads", required:false)
 </head>
-
 <body>
     <header>
-        <nav class="navbar navbar-expand-md bg-body-tertiary fixed-top shadow">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" href="#">xhznl.top</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
-                    aria-label="Toggle navigation">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">BlogX.WebUI</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                    <ul class="navbar-nav me-auto">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">首页</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
-                                aria-expanded="false">分类</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">专栏</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">关于</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
                     </ul>
-                    <form class="d-flex" role="search">
-                        <div class="input-group">
-                            <input type="search" class="form-control" placeholder="search..." aria-label="search"
-                                aria-describedby="button-addon2">
-                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">搜索</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </nav>
     </header>
-
-    <main role="main" class="py-3">
-        <div class="container">
+    <div class="container">
+        <main role="main" class="pb-3">
             @RenderBody()
-        </div>
-    </main>
+        </main>
+    </div>
 
-    <footer class="footer text-center text-body-secondary">
-        <div class="container border-top py-3">
-            @*<ul class="list-inline">
-            <li class="list-inline-item"><a class="text-decoration-none link-body-emphasis" target="_blank"
-            href="https://www.github.com">github</a></li>
-            <li class="list-inline-item"><a class="text-decoration-none link-body-emphasis" target="_blank"
-            href="https://www.github.com">github</a></li>
-            <li class="list-inline-item"><a class="text-decoration-none link-body-emphasis" target="_blank"
-            href="https://www.github.com">github</a></li>
-            </ul>*@
-            <p>Powered by <a class="text-decoration-none link-body-emphasis" target="_blank"
-                    href="https://dotnet.microsoft.com">.NET 7.0</a></p>
-            <p>&copy; 2023 - xhznl.top</p>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - BlogX.WebUI - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 
@@ -83,5 +48,4 @@
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-
 </html>
