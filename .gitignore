@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 .mono/
+.mono/registry/CurrentUser/software/microsoft/csdevkit/v1/pids/5221_133595527627625481/values.xml
