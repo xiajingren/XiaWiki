@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlogX.Core\BlogX.Core.csproj" />
+    <ProjectReference Include="..\Xia.Wiki.Core\Xia.Wiki.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
