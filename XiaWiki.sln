@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xia.Wiki.WebUI", "Xia.Wiki.WebUI\Xia.Wiki.WebUI.csproj", "{109EB344-63B8-4410-9FA4-F2165882AFB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XiaWiki.WebUI", "XiaWiki.WebUI\XiaWiki.WebUI.csproj", "{109EB344-63B8-4410-9FA4-F2165882AFB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xia.Wiki.Core", "Xia.Wiki.Core\Xia.Wiki.Core.csproj", "{D529FC30-8AEF-42D0-A484-59188D4887AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XiaWiki.Core", "XiaWiki.Core\XiaWiki.Core.csproj", "{D529FC30-8AEF-42D0-A484-59188D4887AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xia.Wiki.Infrastructure", "Xia.Wiki.Infrastructure\Xia.Wiki.Infrastructure.csproj", "{7ED7B0D6-D09D-4B09-8B9E-19548F4BAB98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XiaWiki.Infrastructure", "XiaWiki.Infrastructure\XiaWiki.Infrastructure.csproj", "{7ED7B0D6-D09D-4B09-8B9E-19548F4BAB98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

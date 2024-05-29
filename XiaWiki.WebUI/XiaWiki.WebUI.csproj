@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <ItemGroup>
-    <ProjectReference Include="..\Xia.Wiki.Infrastructure\Xia.Wiki.Infrastructure.csproj" />
+    <ProjectReference Include="..\XiaWiki.Infrastructure\XiaWiki.Infrastructure.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

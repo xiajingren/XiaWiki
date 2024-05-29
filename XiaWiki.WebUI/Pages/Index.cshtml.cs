@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Xia.Wiki.WebUI.Pages;
+namespace XiaWiki.WebUI.Pages;
 
 public class IndexModel : PageModel
 {
