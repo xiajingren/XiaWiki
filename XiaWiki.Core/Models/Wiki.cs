@@ -2,13 +2,16 @@
 
 public class Wiki
 {
-    internal Wiki(string title, string author, string content, DateTimeOffset updatedTime)
+    internal Wiki(string path, string title, string author, string content, DateTimeOffset updatedTime)
     {
+        Path = path;
         Title = title;
         Author = author;
         Content = content;
         UpdatedTime = updatedTime;
     }
+
+    public string Path { get; internal set; }
 
     public string Title { get; internal set; }
 

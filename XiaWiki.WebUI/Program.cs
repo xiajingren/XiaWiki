@@ -1,7 +1,12 @@
+using XiaWiki.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+// Add wiki services to the container.
+builder.ConfigureWikiServices();
 
 var app = builder.Build();
 

@@ -2,9 +2,58 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+
+    var tempDomId = 0;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to xhznl.top</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@* <div class="text-center">
+<h1 class="display-4">Welcome to xhznl.top</h1>
+<p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div> *@
+
+<div class="row">
+    <div class="col-3">
+        <ul class="list-unstyled ps-0">
+            @foreach (var pageVM in Model.Pages)
+            {
+                RenderPageTree(pageVM);
+            }
+        </ul>
+    </div>
+    <div class="col">
+        content
+    </div>
+    <div class="col-3">
+        大纲
+    </div>
 </div>
+
+@{
+    void RenderPageTree(IndexModel.PageVM pageVM)
+    {
+        if (!pageVM.IsFolder)
+        {
+            <li>
+                <a class="ms-2" href="@pageVM.Path">@pageVM.Title</a>
+            </li>
+
+            return;
+        }
+
+        tempDomId++;
+
+        <li>
+            <a class="ms-@(pageVM.Depth - 1)" data-bs-toggle="collapse" href="#collapse@(tempDomId)" aria-expanded="false"
+                aria-controls="collapse@(tempDomId)">
+                <i class="bi bi-chevron-right"></i> @pageVM.Title
+            </a>
+
+            <ul class="ms-2 list-unstyled ps-0 collapse" id="collapse@(tempDomId)">
+                @foreach (var child in pageVM.Children)
+                {
+                    RenderPageTree(child);
+                }
+            </ul>
+        </li>
+    }
+}
