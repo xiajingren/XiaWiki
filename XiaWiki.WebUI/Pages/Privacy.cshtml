@@ -2,7 +2,158 @@
 @model PrivacyModel
 @{
     ViewData["Title"] = "Privacy Policy";
+    Layout = null;
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="~/lib/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/XiaWiki.WebUI.styles.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header class="fixed-top">
+        <nav class="navbar bg-body-tertiary flex-nowrap shadow">
+            <div class="container-fluid justify-content-md-start">
+                <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a href="#" class="navbar-brand">Navbar</a>
+                <div class="vr d-none d-md-block"></div>
+                <nav aria-label="breadcrumb" class="d-none d-md-block">
+                    <ol class="breadcrumb mb-0 ms-3">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Library</a></li>
+                        <li class="breadcrumb-item"><a href="#">Library</a></li>
+                        <li class="breadcrumb-item"><a href="#">Library</a></li>
+                        <li class="breadcrumb-item"><a href="#">Library</a></li>
+                        <li class="breadcrumb-item"><a href="#">Library</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Data</li>
+                    </ol>
+                </nav>
+                <form class="d-flex ms-md-auto" role="search">
+                    <input class="form-control me-2 d-none d-md-block" type="search" placeholder="搜索内容..."
+                        aria-label="Search">
+                    <button class="btn btn-outline-success" type="button" style="word-break: keep-all;">搜索</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+    <main class="container-fluid">
+        <div class="row py-3">
+            <div class="col-md-3 my-page-tree text-body">
+                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="offcanvasNavbar"
+                    aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+                            Dark offcanvas
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                            data-bs-target="#offcanvasNavbar" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <div class="w-100">
+                            <h6><a href="#"><i class="bi bi-house"></i>首页</a></h6>
+                            <h6><a href="#"><i class="bi bi-search"></i>搜索</a></h6>
+                            <h6><a href="#"><i class="bi bi-card-list"></i>目录</a></h6>
+                            <div class="my-4"></div>
+                            <!-- <span class="fs-6 text-body-tertiary">目录</span> -->
+                            <hr class="my-2">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <span class="d-flex">
+                                        <a href="#" class="me-auto"><i class="bi bi-folder"></i>技术</a>
+                                        <i class="my-arrow px-2 bi bi-chevron-right rounded" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseExample" aria-expanded="false"
+                                            aria-controls="collapseExample"></i>
+                                    </span>
+
+                                    <ul class="list-unstyled collapse" id="collapseExample">
+                                        <li>
+                                            <a href="#" class="active"><i class="bi bi-file-earmark-text"></i>硬件技术</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="bi bi-file-earmark-text"></i>软件技术</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">生活</a></li>
+                                <li><a href="#">读书</a></li>
+                                <li><a href="#">收藏</a></li>
+                                <li><a href="#">其他</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" data-bs-spy="scroll" data-bs-target="#my-toc" data-bs-smooth-scroll="true">
+                <div class="container-fluid">
+                    <article>
+                        <h2>Arduino基础入门</h1>
+                            <p id="t1">12421424124</p>
+                            <p>12421424124</p>
+                            <p>12421424124</p>
+                            <p>12421424124</p>
+                            <p>12421424124</p>
+                            <p>12421424124</p>
+                            <p>12421424124</p>
+                            <p>12421424124</p>
+                            <p>12421424124</p>
+                            <p>12421424124</p>
+                            <p>12421424124</p>
+                            <p>12421424124</p>
+                            <p>12421424124</p>
+                            <p>12421424124</p>
+                            <p>12421424124</p>
+                            <p id="t2">12421424124</p>
+                            <p>222222</p>
+                            <p>222222</p>
+                            <p>222222</p>
+                            <p>222222</p>
+                            <p>222222</p>
+                            <p>222222</p>
+                            <p>222222</p>
+                    </article>
+                </div>
+            </div>
+            <div id="my-toc" class="col-md-3 d-none d-md-block my-toc text-body-secondary">
+                <div class="sticky-top">
+                    <strong class="h6 my-2">大纲</strong>
+                    <hr class="my-2">
+                    <ul class="list-unstyled">
+                        <li><a href="#t1">页面1</a>
+                            <ul class="list-unstyled">
+                                <li><a href="#t1-1" class="active">页面1-1</a></li>
+                                <li><a href="#t1-2">页面1-2</a></li>
+                                <li><a href="#t1-3">页面1-3</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#t2">页面2</a></li>
+                        <li><a href="#t3">页面3</a></li>
+                        <li><a href="#t4">页面2</a></li>
+                        <li><a href="#t5">页面3</a></li>
+                        <li><a href="#t6">页面2</a></li>
+                        <li><a href="#t7">页面3</a></li>
+                        <li><a href="#t8">页面2</a></li>
+                        <li><a href="#t9">页面3</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer py-3 bg-body-tertiary">
+        <div class="container text-center text-muted">
+            <span>Place sticky footer content here.</span>
+        </div>
+    </footer>
+    <script src="~/lib/bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
