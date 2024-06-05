@@ -1,7 +1,7 @@
-﻿@page
-@model IndexModel
+﻿@page "/p/{id}"
+@model DetailModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Detail";
 }
 
 @await Html.PartialAsync("_TopNavbar")
@@ -12,7 +12,12 @@
 
         <div class="col-md-8" data-bs-spy="scroll" data-bs-target="#my-toc" data-bs-smooth-scroll="true">
             <div class="container-fluid">
-                home
+                <article>
+                    <h2>@Model.PageDetail?.Title</h2>
+                    <div class="my-3">
+                        @Html.Raw(Model.PageDetail?.Content)
+                    </div>
+                </article>
             </div>
         </div>
 

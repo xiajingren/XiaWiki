@@ -1,0 +1,60 @@
+﻿@using XiaWiki.WebUI.Models
+@model IEnumerable<SideNavItem>
+
+<div class="col-md-2 my-page-tree text-body">
+    <div class="offcanvas-md offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+                Dark offcanvas
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="w-100">
+                <h6><a href="#"><i class="bi bi-house"></i>首页</a></h6>
+                <h6><a href="#"><i class="bi bi-search"></i>搜索</a></h6>
+                <h6><a href="#"><i class="bi bi-card-list"></i>目录</a></h6>
+                <div class="my-4"></div>
+                <!-- <span class="fs-6 text-body-tertiary">目录</span> -->
+                <hr class="my-2">
+                <ul class="list-unstyled">
+                    @foreach (var navItem in Model)
+                    {
+                        RenderPageTree(navItem);
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@{
+    void RenderPageTree(SideNavItem navItem)
+    {
+        if (!navItem.IsFolder)
+        {
+            <li class="d-flex py-1">
+                <a href="/p/@navItem.Id" class=""><i class="bi bi-file-earmark-text"></i>@navItem.Title</a>
+            </li>
+
+            return;
+        }
+
+        <li class="py-1">
+            <span class="d-flex">
+                <a href="/f/@navItem.Id" class="me-auto"><i class="bi bi-folder"></i>@navItem.Title</a>
+                <i class="my-arrow px-2 bi bi-chevron-right rounded" data-bs-toggle="collapse"
+                    data-bs-target="#collapse@(navItem.Id)" aria-expanded="false" aria-controls="collapse@(navItem.Id)"></i>
+            </span>
+
+            <ul class="list-unstyled collapse py-1 ms-3" id="collapse@(navItem.Id)">
+                @foreach (var child in navItem.Children)
+                {
+                    RenderPageTree(child);
+                }
+            </ul>
+        </li>
+    }
+}

@@ -3,7 +3,7 @@
 namespace XiaWiki.Core.Services;
 
 
-public interface IWikiService
+public interface IPageDetailService
 {
-    IEnumerable<Page> GetPages();
+    PageDetail Get(string id);
 }

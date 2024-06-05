@@ -14,4 +14,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages/Shared/_SideNavBar.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages/Shared/_SideNavBar.cshtml" />
+  </ItemGroup>
+
 </Project>

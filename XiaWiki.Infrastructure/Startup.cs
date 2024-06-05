@@ -17,5 +17,6 @@ public static class Startup
         });
 
         builder.Services.AddTransient<IPageRepository, PageRepository>();
+        builder.Services.AddTransient<IPageDetailRepository, PageDetailRepository>();
     }
 }

@@ -36,11 +36,49 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
         }
     }
 
+    public Page? GetPageById(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        var pages = GetAll();
+        return FindPage(pages, id);
+    }
+
+    public string? GetPathById(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        var page = GetPageById(id);
+        return page?.Path;
+    }
+
+    private static Page? FindPage(IEnumerable<Page> pages, string id)
+    {
+        if (pages == null || !pages.Any())
+            return null;
+
+        var findPage = pages.FirstOrDefault(x => x.Id == id);
+
+        if (findPage != null)
+            return findPage;
+
+        foreach (var page in pages)
+        {
+            findPage = FindPage(page.Children, id);
+
+            if (findPage != null)
+                return findPage;
+        }
+
+        return null;
+    }
+
     private string ConvertToRelativePath(string path)
     {
         var option = _runtimeOptionDelegate.CurrentValue;
 
         return path.Replace(option.Workspace, string.Empty).Replace('\\', '/');
     }
-
 }
