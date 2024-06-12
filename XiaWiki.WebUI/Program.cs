@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 // Add wiki services to the container.
-builder.ConfigureWikiServices();
+builder.Services.AddWiki(builder.Configuration);
 
 var app = builder.Build();
 
@@ -26,5 +26,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.UseWiki();
 
 app.Run();

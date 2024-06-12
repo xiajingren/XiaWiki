@@ -1,22 +1,31 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using XiaWiki.Core.Repositories;
 using XiaWiki.Infrastructure.Options;
 using XiaWiki.Infrastructure.Repositories;
+using XiaWiki.Infrastructure.Services;
 
 namespace XiaWiki.Infrastructure;
 
 public static class Startup
 {
-    public static void ConfigureWikiServices(this WebApplicationBuilder builder)
+    public static IServiceCollection AddWiki(this IServiceCollection services, IConfiguration configuration)
     {
-        builder.Services.Configure<RuntimeOption>(x =>
+        services.Configure<RuntimeOption>(x =>
         {
-            x.Workspace = builder.Configuration["Runtime:Workspace"] ??
+            x.Workspace = configuration["Runtime:Workspace"] ??
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), nameof(XiaWiki));
         });
 
-        builder.Services.AddTransient<IPageRepository, PageRepository>();
-        builder.Services.AddTransient<IPageDetailRepository, PageDetailRepository>();
+        services.AddTransient<IPageRepository, PageRepository>();
+        services.AddTransient<IPageDetailRepository, PageDetailRepository>();
+
+        return services;
+    }
+
+    public static void UseWiki(this WebApplication app)
+    {
+        app.MapGet("/media/{id}/{path}", RendererService.MediaServer);
     }
 }

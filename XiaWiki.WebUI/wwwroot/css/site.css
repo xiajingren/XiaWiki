@@ -154,3 +154,10 @@ main {
     overflow-y: auto;
   }
 }
+
+/* detail page */
+.my-wiki-content img {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+}

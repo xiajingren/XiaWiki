@@ -23,15 +23,22 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
         var subDirs = dir.GetDirectories();
         foreach (var subDir in subDirs)
         {
+            var children = TraverseDirectory(subDir);
+            if (!children.Any())
+                continue;
+
             yield return new Page(ConvertToRelativePath(subDir.FullName), subDir.Name, true)
             {
-                Children = TraverseDirectory(subDir)
+                Children = children
             };
         }
 
         var files = dir.GetFiles();
         foreach (var file in files)
         {
+            if (!file.FullName.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
+                continue;
+
             yield return new Page(ConvertToRelativePath(file.FullName), file.Name, false);
         }
     }
