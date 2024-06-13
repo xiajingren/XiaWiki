@@ -1,13 +1,65 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Text;
+using Markdig;
+using Markdig.Renderers;
+using Markdig.Renderers.Html;
+using Markdig.Renderers.Normalize;
+using Markdig.Syntax;
+using Markdig.Syntax.Inlines;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Options;
 using XiaWiki.Core.Repositories;
+using XiaWiki.Core.Services;
 using XiaWiki.Infrastructure.Options;
 
 namespace XiaWiki.Infrastructure.Services;
 
-internal class RendererService
+internal class RendererService : IRendererService
 {
+    // private static readonly MarkdownPipeline markdownPipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+    private static readonly MarkdownPipeline markdownPipeline = new MarkdownPipelineBuilder()
+                                                                    //.UseAutoIdentifiers(Markdig.Extensions.AutoIdentifiers.AutoIdentifierOptions.GitHub)
+                                                                    .UseAdvancedExtensions()
+                                                                    .Build();
+
+    public string RenderContent(string id, string content)
+    {
+        var document = Markdown.Parse(content, markdownPipeline);
+
+        foreach (var linkInline in document.Descendants<LinkInline>())
+        {
+            if (!linkInline.IsImage)
+                continue;
+            if (string.IsNullOrEmpty(linkInline.Url))
+                continue;
+
+            linkInline.Url = $"/media/{id}/{System.Net.WebUtility.UrlEncode(linkInline.Url)}";
+        }
+
+        return document.ToHtml(markdownPipeline);
+    }
+
+    public string RenderOutline(string content)
+    {
+        var sb = new StringBuilder();
+
+        sb.AppendLine("<ul class=\"list-unstyled\">");
+
+        var document = Markdown.Parse(content, markdownPipeline);
+
+        foreach (var heading in document.Descendants<HeadingBlock>())
+        {
+            if (heading.Inline?.FirstChild is not LiteralInline inline)
+                continue;
+
+            sb.AppendLine($"<li><a class=\"my-level-{heading.Level}\" href=\"#{heading.GetAttributes().Id}\">{inline.Content.ToString()}</a></li>");
+        }
+
+        sb.AppendLine("</ul>");
+
+        return sb.ToString();
+    }
+
     public static IResult MediaServer(string id, string path, IPageRepository pageRepository, IOptionsMonitor<RuntimeOption> runtimeOptionDelegate)
     {
         var page = pageRepository.GetPageById(id);

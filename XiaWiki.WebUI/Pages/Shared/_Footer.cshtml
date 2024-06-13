@@ -1,5 +1,11 @@
-﻿<footer class="footer py-3 bg-body-tertiary">
+﻿@{
+    var netVer = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
+}
+
+<footer class="my-footer py-5 bg-body-tertiary">
     <div class="container text-center text-muted">
-        <span>Place sticky footer content here.</span>
+        <span>Source code <a target="_blank" href="https://github.com/xiajingren/XiaWiki">XiaWiki</a></span>
+        <span>Powered by <a target="_blank" href="https://dotnet.microsoft.com/">@netVer</a></span>
+        <span>© @DateTime.UtcNow.Year Company, Inc</span>
     </div>
 </footer>

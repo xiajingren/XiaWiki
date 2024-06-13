@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using XiaWiki.Core.Repositories;
+using XiaWiki.Core.Services;
 using XiaWiki.Infrastructure.Options;
 using XiaWiki.Infrastructure.Repositories;
 using XiaWiki.Infrastructure.Services;
@@ -20,6 +21,7 @@ public static class Startup
 
         services.AddTransient<IPageRepository, PageRepository>();
         services.AddTransient<IPageDetailRepository, PageDetailRepository>();
+        services.AddTransient<IRendererService, RendererService>();
 
         return services;
     }

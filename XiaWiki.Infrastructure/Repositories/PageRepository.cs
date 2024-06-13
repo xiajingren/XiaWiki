@@ -36,10 +36,10 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
         var files = dir.GetFiles();
         foreach (var file in files)
         {
-            if (!file.FullName.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
+            if (!file.Name.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
                 continue;
 
-            yield return new Page(ConvertToRelativePath(file.FullName), file.Name, false);
+            yield return new Page(ConvertToRelativePath(file.FullName), file.Name.Remove(file.Name.Length - 3), false);
         }
     }
 

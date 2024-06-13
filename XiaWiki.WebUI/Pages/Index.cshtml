@@ -10,12 +10,12 @@
     <div class="row py-3">
         @await Html.PartialAsync("_SideNavBar", Model.SideNavItems)
 
-        <div class="col-md-8" data-bs-spy="scroll" data-bs-target="#my-toc" data-bs-smooth-scroll="true">
+        <div class="col-md-8" data-bs-spy="scroll" data-bs-target="#my-outline" data-bs-smooth-scroll="true">
             <div class="container-fluid">
                 home
             </div>
         </div>
 
-        @await Html.PartialAsync("_Outline")
+        @await Html.PartialAsync("_Outline", "")
     </div>
 </main>

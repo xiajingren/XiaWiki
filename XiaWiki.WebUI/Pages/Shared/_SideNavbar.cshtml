@@ -2,19 +2,19 @@
 @model IEnumerable<SideNavItem>
 
 <div class="col-md-2 my-page-tree text-body">
-    <div class="offcanvas-md offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+    <div class="offcanvas-md offcanvas-start" tabindex="-1" id="my-sidebar-box" aria-labelledby="my-sidebar-box-label">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+            <h5 class="offcanvas-title" id="my-sidebar-box-label">
                 Dark offcanvas
             </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasNavbar"
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#my-sidebar-box"
                 aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <div class="w-100">
-                <h6><a href="#"><i class="bi bi-house"></i>首页</a></h6>
-                <h6><a href="#"><i class="bi bi-search"></i>搜索</a></h6>
-                <h6><a href="#"><i class="bi bi-card-list"></i>目录</a></h6>
+                <h6><a href="/"><i class="bi bi-house"></i>首页</a></h6>
+                <h6><a href="/s"><i class="bi bi-search"></i>搜索</a></h6>
+                <h6><a href="/f"><i class="bi bi-card-list"></i>目录</a></h6>
                 <div class="my-4"></div>
                 <!-- <span class="fs-6 text-body-tertiary">目录</span> -->
                 <hr class="my-2">

@@ -1,8 +1,4 @@
-﻿using Markdig;
-using Markdig.Renderers.Normalize;
-using Markdig.Syntax;
-using Markdig.Syntax.Inlines;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using XiaWiki.Core.Models;
 using XiaWiki.Core.Repositories;
 using XiaWiki.Infrastructure.Options;
@@ -23,36 +19,9 @@ internal class PageDetailRepository(IPageRepository pageRepository, IOptionsMoni
 
         var option = runtimeOptionDelegate.CurrentValue;
 
-        var text = await File.ReadAllTextAsync($"{option.Workspace}{page.Path}");
-
-        var content = ConvertMarkdownToHtml(id, text);
+        var content = await File.ReadAllTextAsync($"{option.Workspace}{page.Path}");
 
         return new PageDetail(page.Path, page.Title, "xiajingren", content, DateTime.Now);
-    }
-
-    private static string ConvertMarkdownToHtml(string id, string markdown)
-    {
-        var document = Markdown.Parse(markdown);
-
-        foreach (var node in document)
-        {
-            if (node is not ParagraphBlock { Inline: { } } paragraphBlock) continue;
-
-            foreach (var inline in paragraphBlock.Inline)
-            {
-                if (inline is not LinkInline { IsImage: true } linkInline) continue;
-
-                if (linkInline.Url == null) continue;
-
-                linkInline.Url = $"/media/{id}/{System.Net.WebUtility.UrlEncode(linkInline.Url)}";
-            }
-        }
-
-        using var writer = new StringWriter();
-        var render = new NormalizeRenderer(writer);
-        render.Render(document);
-
-        return Markdown.ToHtml(writer.ToString());
     }
 
 }
