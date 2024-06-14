@@ -12,12 +12,12 @@ public class IndexModel(ILogger<IndexModel> logger, IPageRepository pageReposito
 
     private readonly IPageRepository _pageRepository = pageRepository;
 
-    public IEnumerable<SideNavItem> SideNavItems { get; set; } = [];
+    public SideNav SideNav { get; set; } = new SideNav([], "");
 
     public void OnGet()
     {
         var allPages = _pageRepository.GetAll();
 
-        SideNavItems = allPages.Adapt<IEnumerable<SideNavItem>>();
+        SideNav = new SideNav(allPages.Adapt<IEnumerable<SideNavItem>>(), "");
     }
 }

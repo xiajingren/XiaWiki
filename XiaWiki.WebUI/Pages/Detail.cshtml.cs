@@ -13,7 +13,7 @@ namespace XiaWiki.WebUI.Pages
 
         public string Outline { get; set; } = string.Empty;
 
-        public IEnumerable<SideNavItem> SideNavItems { get; set; } = [];
+        public SideNav SideNav { get; set; } = new SideNav([], "");
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -29,7 +29,7 @@ namespace XiaWiki.WebUI.Pages
 
             var allPages = pageRepository.GetAll();
 
-            SideNavItems = allPages.Adapt<IEnumerable<SideNavItem>>();
+            SideNav = new SideNav(allPages.Adapt<IEnumerable<SideNavItem>>(), id);
 
             return Page();
         }
