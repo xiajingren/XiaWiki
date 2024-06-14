@@ -15,11 +15,13 @@ namespace XiaWiki.WebUI.Pages
 
         public SideNav SideNav { get; set; } = new SideNav([], "");
 
+        public TopNav TopNav { get; set; } = new TopNav([]);
+
         public async Task<IActionResult> OnGetAsync(string id)
         {
             var pageDetail = await pageDetailRepository.GetAsync(id);
 
-            if (pageDetail == null)
+            if (pageDetail is null)
                 return NotFound();
 
             PageDetail = pageDetail.Adapt<PageDetail>();
@@ -28,8 +30,11 @@ namespace XiaWiki.WebUI.Pages
             Outline = rendererService.RenderOutline(pageDetail.Content);
 
             var allPages = pageRepository.GetAll();
-
             SideNav = new SideNav(allPages.Adapt<IEnumerable<SideNavItem>>(), id);
+
+            var breadcrumbs = pageDetail.ParentPages.Select(x => new Breadcrumb(x.Id, x.Title)).ToList();
+            breadcrumbs.Add(new Breadcrumb(id, pageDetail.Title));
+            TopNav = new TopNav(breadcrumbs);
 
             return Page();
         }

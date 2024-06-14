@@ -11,17 +11,17 @@ internal class PageDetailRepository(IPageRepository pageRepository, IOptionsMoni
     {
         var page = pageRepository.GetPageById(id);
 
-        if (page == null)
+        if (page is null)
             return null;
 
         if (page.IsFolder)
-            throw new ApplicationException($"{id} is a folder...");
+            throw new ApplicationException($"{id} is a folder..."); // todo: domain exception
 
         var option = runtimeOptionDelegate.CurrentValue;
 
         var content = await File.ReadAllTextAsync($"{option.Workspace}{page.Path}");
 
-        return new PageDetail(page.Path, page.Title, "xiajingren", content, DateTime.Now);
+        return new PageDetail(page.Path, page.Title, "xiajingren", content, DateTime.Now) { ParentPage = page.ParentPage };
     }
 
 }

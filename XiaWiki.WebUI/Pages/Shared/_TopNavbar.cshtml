@@ -1,23 +1,36 @@
-﻿<header class="fixed-top">
+﻿@using XiaWiki.WebUI.Models
+@model TopNav
+
+<header class="fixed-top">
     <nav class="navbar bg-body-tertiary flex-nowrap shadow">
         <div class="container-fluid justify-content-md-start">
             <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a href="#" class="navbar-brand">Navbar</a>
-            <div class="vr d-none d-md-block"></div>
-            <nav aria-label="breadcrumb" class="d-none d-md-block">
-                <ol class="breadcrumb mb-0 ms-3">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Library</a></li>
-                    <li class="breadcrumb-item"><a href="#">Library</a></li>
-                    <li class="breadcrumb-item"><a href="#">Library</a></li>
-                    <li class="breadcrumb-item"><a href="#">Library</a></li>
-                    <li class="breadcrumb-item"><a href="#">Library</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Data</li>
-                </ol>
-            </nav>
+            <a href="#" class="navbar-brand">XiaWiki</a>
+
+            @* <div class="vr d-none d-md-block"></div> *@
+
+            @if (Model.Breadcrumbs.Any())
+            {
+                <div aria-label="breadcrumb" class="d-none d-md-block border-start my-breadcrumb">
+                    <ol class="breadcrumb mb-0 ms-3 flex-nowrap">
+                        <li class="breadcrumb-item"><a href="/f">目录</a></li>
+
+                        @foreach (var item in Model.Breadcrumbs)
+                        {
+                            if (item == Model.Breadcrumbs.Last())
+                                continue;
+
+                            <li class="breadcrumb-item"><a href="/f/@item.Id">@item.Title</a></li>
+                        }
+
+                        <li class="breadcrumb-item active" aria-current="page">@Model.Breadcrumbs.Last().Title</li>
+                    </ol>
+                </div>
+            }
+
             <form class="d-flex ms-md-auto" role="search">
                 <input class="form-control me-2 d-none d-md-block" type="search" placeholder="搜索内容..."
                     aria-label="Search">

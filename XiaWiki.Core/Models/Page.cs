@@ -17,6 +17,8 @@ public class Page(string path, string title, bool isFolder)
 
     public string FolderPath = path[..(path.LastIndexOf('/') + 1)];
 
+    public ParentPage? ParentPage { get; set; } = null;
+
     public string Id = GeneratePageId(path);
 
     private static string GeneratePageId(string path)

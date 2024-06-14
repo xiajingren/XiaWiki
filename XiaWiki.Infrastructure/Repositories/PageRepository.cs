@@ -18,19 +18,20 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
         return TraverseDirectory(workspaceDir);
     }
 
-    private IEnumerable<Page> TraverseDirectory(DirectoryInfo dir)
+    private IEnumerable<Page> TraverseDirectory(DirectoryInfo dir, ParentPage? parentPage = null)
     {
         var subDirs = dir.GetDirectories();
         foreach (var subDir in subDirs)
         {
-            var children = TraverseDirectory(subDir);
+            var page = new Page(ConvertToRelativePath(subDir.FullName), subDir.Name, true) { ParentPage = parentPage };
+
+            var children = TraverseDirectory(subDir, new ParentPage(page.Id, page.Title, parentPage));
             if (!children.Any())
                 continue;
 
-            yield return new Page(ConvertToRelativePath(subDir.FullName), subDir.Name, true)
-            {
-                Children = children
-            };
+            page.Children = children;
+
+            yield return page;
         }
 
         var files = dir.GetFiles();
@@ -39,7 +40,7 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
             if (!file.Name.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
                 continue;
 
-            yield return new Page(ConvertToRelativePath(file.FullName), file.Name.Remove(file.Name.Length - 3), false);
+            yield return new Page(ConvertToRelativePath(file.FullName), file.Name.Remove(file.Name.Length - 3), false) { ParentPage = parentPage };
         }
     }
 
@@ -63,19 +64,19 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
 
     private static Page? FindPage(IEnumerable<Page> pages, string id)
     {
-        if (pages == null || !pages.Any())
+        if (pages is null || !pages.Any())
             return null;
 
         var findPage = pages.FirstOrDefault(x => x.Id == id);
 
-        if (findPage != null)
+        if (findPage is not null)
             return findPage;
 
         foreach (var page in pages)
         {
             findPage = FindPage(page.Children, id);
 
-            if (findPage != null)
+            if (findPage is not null)
                 return findPage;
         }
 

@@ -14,6 +14,8 @@ public class IndexModel(ILogger<IndexModel> logger, IPageRepository pageReposito
 
     public SideNav SideNav { get; set; } = new SideNav([], "");
 
+    public TopNav TopNav { get; set; } = new TopNav([]);
+
     public void OnGet()
     {
         var allPages = _pageRepository.GetAll();
