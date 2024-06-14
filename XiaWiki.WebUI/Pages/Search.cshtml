@@ -1,7 +1,7 @@
-﻿@page
-@model IndexModel
+﻿@page "/s/{keywords?}"
+@model SearchModel
 @{
-    ViewData["Title"] = "首页";
+    ViewData["Title"] = "搜索";
 }
 
 @await Html.PartialAsync("_TopNavbar", Model.TopNav)
@@ -11,8 +11,10 @@
         @await Html.PartialAsync("_SideNavBar", Model.SideNav)
 
         <div class="col-md-8">
-            <div class="container-fluid">
-                home
+            <div class="container">
+                this is Search page 
+
+                Not yet implemented ...
             </div>
         </div>
 

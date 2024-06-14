@@ -1,7 +1,7 @@
 ﻿@page "/p/{id}"
 @model DetailModel
 @{
-    ViewData["Title"] = "Detail";
+    ViewData["Title"] = Model.Detail?.Title;
 }
 
 @section Styles {
@@ -17,8 +17,8 @@
         <div class="col-md-8" data-bs-spy="scroll" data-bs-target="#my-outline" data-bs-smooth-scroll="true">
             <div class="container-fluid">
                 <article class="my-wiki-content markdown-body">
-                    @* <h1>@Model.PageDetail?.Title</h1> *@
-                    @Html.Raw(Model.PageDetail?.Content)
+                    @* <h1>@Model.Detail?.Title</h1> *@
+                    @Html.Raw(Model.Detail?.Content)
                 </article>
             </div>
         </div>

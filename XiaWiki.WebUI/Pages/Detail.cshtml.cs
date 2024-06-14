@@ -9,7 +9,7 @@ namespace XiaWiki.WebUI.Pages
 {
     public class DetailModel(IPageRepository pageRepository, IPageDetailRepository pageDetailRepository, IRendererService rendererService) : PageModel
     {
-        public PageDetail? PageDetail { get; set; }
+        public Detail? Detail { get; set; }
 
         public string Outline { get; set; } = string.Empty;
 
@@ -24,8 +24,8 @@ namespace XiaWiki.WebUI.Pages
             if (pageDetail is null)
                 return NotFound();
 
-            PageDetail = pageDetail.Adapt<PageDetail>();
-            PageDetail.Content = rendererService.RenderContent(id, pageDetail.Content);
+            Detail = pageDetail.Adapt<Detail>();
+            Detail.Content = rendererService.RenderContent(id, pageDetail.Content);
 
             Outline = rendererService.RenderOutline(pageDetail.Content);
 
