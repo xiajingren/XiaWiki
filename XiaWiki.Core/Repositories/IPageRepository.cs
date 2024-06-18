@@ -6,7 +6,9 @@ public interface IPageRepository
 {
     IEnumerable<Page> GetAll();
 
-    string? GetPathById(string id);
+    string? GetPathById(PageId id);
 
-    Page? GetPageById(string id);
+    Page? GetPageById(PageId id);
+
+    IDictionary<string, Page> GetAllWithoutChildren();
 }

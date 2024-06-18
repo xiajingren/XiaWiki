@@ -18,12 +18,40 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
         return TraverseDirectory(workspaceDir);
     }
 
+    public IDictionary<string, Page> GetAllWithoutChildren()
+    {
+        var result = new Dictionary<string, Page>();
+
+        var pages = GetAll();
+
+        void AddToDict(IEnumerable<Page> pages)
+        {
+            foreach (var page in pages)
+            {
+                result[page.Id.ToString()] = page;
+
+                if (!page.Children.Any())
+                    continue;
+
+                AddToDict(page.Children);
+                page.Children = [];
+            }
+        }
+
+        AddToDict(pages);
+
+        return result;
+    }
+
     private IEnumerable<Page> TraverseDirectory(DirectoryInfo dir, ParentPage? parentPage = null)
     {
         var subDirs = dir.GetDirectories();
         foreach (var subDir in subDirs)
         {
-            var page = new Page(ConvertToRelativePath(subDir.FullName), subDir.Name, true) { ParentPage = parentPage };
+            var page = new Page(ConvertToRelativePath(subDir.FullName), subDir.Name, true)
+            {
+                ParentPage = parentPage
+            };
 
             var children = TraverseDirectory(subDir, new ParentPage(page.Id, page.Title, parentPage));
             if (!children.Any())
@@ -40,30 +68,37 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
             if (!file.Name.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
                 continue;
 
-            yield return new Page(ConvertToRelativePath(file.FullName), file.Name.Remove(file.Name.Length - 3), false) { ParentPage = parentPage };
+            yield return new Page(ConvertToRelativePath(file.FullName), file.Name.Remove(file.Name.Length - 3), false)
+            {
+                ParentPage = parentPage,
+                UpdatedTime = DateTimeOffset.Now
+            };
         }
     }
 
-    public Page? GetPageById(string id)
+    public Page? GetPageById(PageId id)
     {
-        if (string.IsNullOrEmpty(id))
+        if (id.IsNullOrEmpty)
             return null;
 
         var pages = GetAll();
         return FindPage(pages, id);
     }
 
-    public string? GetPathById(string id)
+    public string? GetPathById(PageId id)
     {
-        if (string.IsNullOrEmpty(id))
+        if (id.IsNullOrEmpty)
             return null;
 
         var page = GetPageById(id);
         return page?.Path;
     }
 
-    private static Page? FindPage(IEnumerable<Page> pages, string id)
+    private static Page? FindPage(IEnumerable<Page> pages, PageId id)
     {
+        if (id.IsNullOrEmpty)
+            return null;
+
         if (pages is null || !pages.Any())
             return null;
 

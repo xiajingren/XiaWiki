@@ -12,7 +12,46 @@
 
         <div class="col-md-8">
             <div class="container-fluid">
-                home
+                <h4>最近更新</h4>
+                <div class="my-card-columns">
+                    @foreach (var item in Model.LatestUpdates)
+                    {
+                        <div class="card mb-3">
+                            @if (!string.IsNullOrEmpty(item.Image))
+                            {
+                                <img src="@item.Image" class="card-img-top" alt="@item.Title">
+                            }
+                            <div class="card-body">
+                                <h5 class="card-title">@item.Title</h5>
+                                <p class="card-text">@item.Content</p>
+                                <a href="/p/@item.Id" class="btn btn-outline-primary stretched-link">阅读全文</a>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-body-secondary">@item.UpdatedTime.ToString()</small>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <h4 class="mt-3">随便看看</h4>
+                <div class="my-card-columns">
+                    @foreach (var item in Model.RandomList)
+                    {
+                        <div class="card mb-3">
+                            @if (!string.IsNullOrEmpty(item.Image))
+                            {
+                                <img src="@item.Image" class="card-img-top" alt="@item.Title">
+                            }
+                            <div class="card-body">
+                                <h5 class="card-title">@item.Title</h5>
+                                <p class="card-text">@item.Content</p>
+                                <a href="/p/@item.Id" class="btn btn-outline-primary stretched-link">阅读全文</a>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-body-secondary">@item.UpdatedTime.ToString()</small>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
 

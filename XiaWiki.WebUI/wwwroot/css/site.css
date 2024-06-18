@@ -63,14 +63,14 @@ main {
 .my-page-tree a:hover {
   /* color: var(--bs-link-hover-color);
   text-decoration: underline; */
-  color: var(--bs-success);
+  color: var(--bs-primary);
 }
 
 .my-page-tree a.active {
   position: relative;
   font-weight: bold;
   /* pointer-events: none; */
-  color: var(--bs-success);
+  color: var(--bs-primary);
 }
 
 .my-page-tree a i {
@@ -155,9 +155,9 @@ main {
 
 .my-outline a:hover,
 .my-outline a.active {
-  border-left: .125rem solid var(--bs-success);
+  border-left: .125rem solid var(--bs-primary);
   /* padding-left: .5rem; */
-  color: var(--bs-success);
+  color: var(--bs-primary);
 }
 
 .my-outline .sticky-top {

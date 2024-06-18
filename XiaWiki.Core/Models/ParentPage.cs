@@ -1,3 +1,3 @@
 ﻿namespace XiaWiki.Core.Models;
 
-public record ParentPage(string Id, string Title, ParentPage? Parent);
+public record ParentPage(PageId Id, string Title, ParentPage? Parent);

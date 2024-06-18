@@ -1,0 +1,13 @@
+.my-card-columns {
+    column-count: 1;
+}
+
+.my-card-columns .card {
+    break-inside: avoid;
+}
+
+@media (min-width: 768px) {
+    .my-card-columns {
+        column-count: 3;
+    }
+}

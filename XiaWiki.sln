@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XiaWiki.Core", "XiaWiki.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XiaWiki.Infrastructure", "XiaWiki.Infrastructure\XiaWiki.Infrastructure.csproj", "{7ED7B0D6-D09D-4B09-8B9E-19548F4BAB98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XiaWiki.Tests", "XiaWiki.Tests\XiaWiki.Tests.csproj", "{C70F3E42-C9A6-458A-B568-12810348C982}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{7ED7B0D6-D09D-4B09-8B9E-19548F4BAB98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7ED7B0D6-D09D-4B09-8B9E-19548F4BAB98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7ED7B0D6-D09D-4B09-8B9E-19548F4BAB98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C70F3E42-C9A6-458A-B568-12810348C982}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C70F3E42-C9A6-458A-B568-12810348C982}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C70F3E42-C9A6-458A-B568-12810348C982}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C70F3E42-C9A6-458A-B568-12810348C982}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

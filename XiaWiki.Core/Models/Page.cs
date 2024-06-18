@@ -1,7 +1,4 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-
-namespace XiaWiki.Core.Models;
+﻿namespace XiaWiki.Core.Models;
 
 public class Page(string path, string title, bool isFolder)
 {
@@ -19,16 +16,7 @@ public class Page(string path, string title, bool isFolder)
 
     public ParentPage? ParentPage { get; set; } = null;
 
-    public string Id = GeneratePageId(path);
+    public PageId Id = PageId.Create(path);
 
-    private static string GeneratePageId(string path)
-    {
-        var data = MD5.HashData(Encoding.UTF8.GetBytes(path));
-        var sBuilder = new StringBuilder();
-        for (int i = 0; i < data.Length; i++)
-        {
-            sBuilder.Append(data[i].ToString("x2"));
-        }
-        return sBuilder.ToString();
-    }
+    public DateTimeOffset? UpdatedTime { get; set; }
 }

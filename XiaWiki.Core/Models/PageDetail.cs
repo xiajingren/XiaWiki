@@ -14,6 +14,8 @@ public class PageDetail(string path, string title, string author, string content
 
     public DateTimeOffset UpdatedTime { get; } = updatedTime;
 
+    public PageId Id = PageId.Create(path);
+
     public IReadOnlyCollection<ParentPage> ParentPages
     {
         get
