@@ -2,6 +2,7 @@
 using XiaWiki.Core.Models;
 using XiaWiki.Core.Repositories;
 using XiaWiki.Infrastructure.Options;
+using XiaWiki.Shared.Extensions;
 
 namespace XiaWiki.Infrastructure.Repositories;
 
@@ -15,6 +16,9 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
 
         var workspaceDir = new DirectoryInfo(option.Workspace);
 
+        if (workspaceDir is null || !workspaceDir.Exists)
+            throw new ApplicationException("workspace is not exists...");
+
         return TraverseDirectory(workspaceDir);
     }
 
@@ -24,7 +28,7 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
 
         var pages = GetAll();
 
-        void AddToDict(IEnumerable<Page> pages)
+        void addToDict(IEnumerable<Page> pages)
         {
             foreach (var page in pages)
             {
@@ -33,12 +37,12 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
                 if (!page.Children.Any())
                     continue;
 
-                AddToDict(page.Children);
+                addToDict(page.Children);
                 page.Children = [];
             }
         }
 
-        AddToDict(pages);
+        addToDict(pages);
 
         return result;
     }
@@ -81,41 +85,9 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
         if (id.IsNullOrEmpty)
             return null;
 
-        var pages = GetAll();
-        return FindPage(pages, id);
-    }
+        var pages = GetAllWithoutChildren();
 
-    public string? GetPathById(PageId id)
-    {
-        if (id.IsNullOrEmpty)
-            return null;
-
-        var page = GetPageById(id);
-        return page?.Path;
-    }
-
-    private static Page? FindPage(IEnumerable<Page> pages, PageId id)
-    {
-        if (id.IsNullOrEmpty)
-            return null;
-
-        if (pages is null || !pages.Any())
-            return null;
-
-        var findPage = pages.FirstOrDefault(x => x.Id == id);
-
-        if (findPage is not null)
-            return findPage;
-
-        foreach (var page in pages)
-        {
-            findPage = FindPage(page.Children, id);
-
-            if (findPage is not null)
-                return findPage;
-        }
-
-        return null;
+        return pages.GetOrDefault(id.ToString());
     }
 
     private string ConvertToRelativePath(string path)

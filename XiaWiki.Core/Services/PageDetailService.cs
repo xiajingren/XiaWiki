@@ -1,7 +1,6 @@
 ﻿using XiaWiki.Core.Models;
-using XiaWiki.Core.Services;
 
-namespace XiaWiki.Core;
+namespace XiaWiki.Core.Services;
 
 public class PageDetailService : IPageDetailService
 {

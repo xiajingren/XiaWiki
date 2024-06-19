@@ -6,11 +6,11 @@ using XiaWiki.Infrastructure;
 
 namespace XiaWiki.Tests;
 
-public class UnitTest
+public class FunctionTests
 {
     private readonly IServiceProvider _serviceProvider;
 
-    public UnitTest()
+    public FunctionTests()
     {
         var serviceCollection = new ServiceCollection();
 

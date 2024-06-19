@@ -29,8 +29,7 @@ public class IndexModel(IPageRepository pageRepository, IPageDetailRepository pa
             LatestUpdates.Add(new CardItem(page.Id.ToString(),
                                            page.Title,
                                            rendererService.GetSummary(page.Content, 50),
-                                           rendererService.GetImage(page.Id.ToString(),
-                                           page.Content),
+                                           AppendQualityToImageUrl(rendererService.GetImage(page.Id.ToString(), page.Content)),
                                            page.UpdatedTime));
         }
 
@@ -40,11 +39,18 @@ public class IndexModel(IPageRepository pageRepository, IPageDetailRepository pa
             RandomList.Add(new CardItem(page.Id.ToString(),
                                            page.Title,
                                            rendererService.GetSummary(page.Content, 50),
-                                           rendererService.GetImage(page.Id.ToString(),
-                                           page.Content),
+                                           AppendQualityToImageUrl(rendererService.GetImage(page.Id.ToString(), page.Content)),
                                            page.UpdatedTime));
         }
 
         return Page();
     }
+
+    static string? AppendQualityToImageUrl(string? imageUrl)
+    {
+        if (string.IsNullOrEmpty(imageUrl)) return null;
+
+        return $"{imageUrl}?q=l";
+    }
+
 }

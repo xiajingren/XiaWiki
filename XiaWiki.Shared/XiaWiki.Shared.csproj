@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-   <ItemGroup>
-    <ProjectReference Include="..\XiaWiki.Shared\XiaWiki.Shared.csproj" />
-  </ItemGroup>
-
 </Project>
