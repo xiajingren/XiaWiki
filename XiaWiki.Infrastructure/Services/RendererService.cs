@@ -117,7 +117,7 @@ internal class RendererService : IRendererService
         // if (!new FileExtensionContentTypeProvider().TryGetContentType(mediaFile.Name, out var contentType) || string.IsNullOrEmpty(contentType))
         //     contentType = "application/octet-stream";
 
-        context.Response.Headers.CacheControl = "public,max-age=3600"; // 缓存1小时
+        // context.Response.Headers.CacheControl = "public,max-age=3600"; // 缓存1小时
 
         var compressionStream = await CompressionImage(stream, quality, cancellationToken);
         return Results.File(compressionStream, "image/webp");
