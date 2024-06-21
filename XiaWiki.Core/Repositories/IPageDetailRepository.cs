@@ -9,4 +9,8 @@ public interface IPageDetailRepository
     IAsyncEnumerable<PageDetail> GetLatestUpdatesAsync(int count);
 
     IAsyncEnumerable<PageDetail> GetRandomListAsync(int count);
+
+    IAsyncEnumerable<PageDetail> GetAllAsync();
+
+    IAsyncEnumerable<PageDetail> SearchAsync(string keyword);
 }

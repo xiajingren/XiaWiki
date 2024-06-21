@@ -16,5 +16,10 @@ internal abstract class DocBase<T> where T : DocBase<T>
 
     public string Id { get; set; }
 
-    public abstract Document ToLuceneDoc();
+    public virtual Document ToLuceneDoc()
+    {
+        return [
+            new StringField(nameof(Id), Id, Field.Store.YES),
+        ];
+    }
 }

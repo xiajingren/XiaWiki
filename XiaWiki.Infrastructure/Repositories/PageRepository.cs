@@ -14,7 +14,7 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
     {
         var option = _runtimeOptionDelegate.CurrentValue;
 
-        var workspaceDir = new DirectoryInfo(option.Workspace);
+        var workspaceDir = new DirectoryInfo(option.PagesDir);
 
         if (workspaceDir is null || !workspaceDir.Exists)
             throw new ApplicationException("workspace is not exists...");
@@ -94,6 +94,6 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
     {
         var option = _runtimeOptionDelegate.CurrentValue;
 
-        return path.Replace(option.Workspace, string.Empty).Replace('\\', '/');
+        return path.Replace(option.PagesDir, string.Empty).Replace('\\', '/');
     }
 }

@@ -12,6 +12,7 @@ internal class PageDoc : DocBase<PageDoc>
     public PageDoc(Document luceneDoc) : base(luceneDoc)
     {
         Title = luceneDoc.Get(nameof(Title));
+        Content = luceneDoc.Get(nameof(Content));
     }
 
     public string Title { get; set; }
@@ -20,10 +21,11 @@ internal class PageDoc : DocBase<PageDoc>
 
     public override Document ToLuceneDoc()
     {
-        return [
-            new StringField(nameof(Id), Id, Field.Store.YES),
-            new TextField(nameof(Title), Title, Field.Store.YES),
-            new TextField(nameof(Content), Content, Field.Store.NO),
-        ];
+        var doc = base.ToLuceneDoc();
+
+        doc.Add(new TextField(nameof(Title), Title, Field.Store.YES));
+        doc.Add(new TextField(nameof(Content), Content, Field.Store.YES));
+
+        return doc;
     }
 }

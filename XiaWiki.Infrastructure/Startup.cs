@@ -5,6 +5,7 @@ using XiaWiki.Core.Repositories;
 using XiaWiki.Core.Services;
 using XiaWiki.Infrastructure.Options;
 using XiaWiki.Infrastructure.Repositories;
+using XiaWiki.Infrastructure.Search;
 using XiaWiki.Infrastructure.Services;
 
 namespace XiaWiki.Infrastructure;
@@ -22,6 +23,10 @@ public static class Startup
         services.AddTransient<IPageRepository, PageRepository>();
         services.AddTransient<IPageDetailRepository, PageDetailRepository>();
         services.AddTransient<IRendererService, RendererService>();
+
+        services.AddSingleton<SearchEngine>();
+
+        services.AddHostedService<TaskService>();
 
         return services;
     }

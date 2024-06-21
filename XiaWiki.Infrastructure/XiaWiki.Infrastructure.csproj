@@ -14,6 +14,8 @@
     <PackageReference Include="JieBa.Net" Version="0.42.2" />
     <PackageReference Include="Lucene.NET" Version="4.8.0-beta00016" />
     <PackageReference Include="Lucene.NET.Analysis.Common" Version="4.8.0-beta00016" />
+    <PackageReference Include="Lucene.NET.QueryParser" Version="4.8.0-beta00016" />
+    <PackageReference Include="Lucene.NET.Highlighter" Version="4.8.0-beta00016" />
     <PackageReference Include="Markdig" Version="0.37.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
   </ItemGroup>

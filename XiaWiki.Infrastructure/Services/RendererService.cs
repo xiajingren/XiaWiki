@@ -108,7 +108,7 @@ internal class RendererService : IRendererService
 
         var option = runtimeOptionDelegate.CurrentValue;
 
-        var mediaFile = new FileInfo($"{option.Workspace}{page.FolderPath}{path.FromBase64Url()}");
+        var mediaFile = new FileInfo($"{option.PagesDir}{page.FolderPath}{path.FromBase64Url()}");
         if (mediaFile is null || !mediaFile.Exists)
             return Results.NotFound();
 

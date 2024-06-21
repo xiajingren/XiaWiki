@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using XiaWiki.Core.Models;
 using XiaWiki.Core.Repositories;
 using XiaWiki.Infrastructure;
 
@@ -29,34 +28,39 @@ public class FunctionTests
     }
 
     [Fact]
-    public async void GetLatestUpdates_HasData()
+    public void GetLatestUpdates_HasData()
     {
         // Arrange
         var pageDetailRepository = _serviceProvider.GetRequiredService<IPageDetailRepository>();
 
         // Act
-        var list = new List<PageDetail>();
-        await foreach (var pageDetail in pageDetailRepository.GetLatestUpdatesAsync(12))
-        {
-            list.Add(pageDetail);
-        }
+        var list = pageDetailRepository.GetLatestUpdatesAsync(12).ToBlockingEnumerable().ToList();
 
         // Assert
         Assert.True(list.Count > 0);
     }
 
     [Fact]
-    public async void GetRandomList_HasData()
+    public void GetRandomList_HasData()
     {
         // Arrange
         var pageDetailRepository = _serviceProvider.GetRequiredService<IPageDetailRepository>();
 
         // Act
-        var list = new List<PageDetail>();
-        await foreach (var pageDetail in pageDetailRepository.GetRandomListAsync(12))
-        {
-            list.Add(pageDetail);
-        }
+        var list = pageDetailRepository.GetRandomListAsync(12).ToBlockingEnumerable().ToList();
+
+        // Assert
+        Assert.True(list.Count > 0);
+    }
+
+    [Fact]
+    public void SearchPageDetail_HasData()
+    {
+        // Arrange
+        var pageDetailRepository = _serviceProvider.GetRequiredService<IPageDetailRepository>();
+
+        // Act
+        var list = pageDetailRepository.SearchAsync("Arduino").ToBlockingEnumerable().ToList();
 
         // Assert
         Assert.True(list.Count > 0);
