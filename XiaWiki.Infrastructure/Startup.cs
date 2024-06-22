@@ -16,8 +16,8 @@ public static class Startup
     {
         services.Configure<RuntimeOption>(x =>
         {
-            x.Workspace = configuration["Runtime:Workspace"] ??
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), nameof(XiaWiki));
+            x.Workspace = configuration["Runtime:Workspace"] ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Workspace");
+            //Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), nameof(XiaWiki));
         });
 
         services.AddTransient<IPageRepository, PageRepository>();

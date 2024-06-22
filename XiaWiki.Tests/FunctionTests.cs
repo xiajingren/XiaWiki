@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using XiaWiki.Core.Repositories;
+using XiaWiki.Core.Services;
 using XiaWiki.Infrastructure;
 
 namespace XiaWiki.Tests;
@@ -31,10 +32,10 @@ public class FunctionTests
     public void GetLatestUpdates_HasData()
     {
         // Arrange
-        var pageDetailRepository = _serviceProvider.GetRequiredService<IPageDetailRepository>();
+        var pageLiteService = _serviceProvider.GetRequiredService<IPageLiteService>();
 
         // Act
-        var list = pageDetailRepository.GetLatestUpdatesAsync(12).ToBlockingEnumerable().ToList();
+        var list = pageLiteService.GetLatestUpdatesAsync(12).ToBlockingEnumerable().ToList();
 
         // Assert
         Assert.True(list.Count > 0);
@@ -44,10 +45,10 @@ public class FunctionTests
     public void GetRandomList_HasData()
     {
         // Arrange
-        var pageDetailRepository = _serviceProvider.GetRequiredService<IPageDetailRepository>();
+        var pageLiteService = _serviceProvider.GetRequiredService<IPageLiteService>();
 
         // Act
-        var list = pageDetailRepository.GetRandomListAsync(12).ToBlockingEnumerable().ToList();
+        var list = pageLiteService.GetRandomListAsync(12).ToBlockingEnumerable().ToList();
 
         // Assert
         Assert.True(list.Count > 0);
