@@ -47,17 +47,17 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
         return result;
     }
 
-    private IEnumerable<Page> TraverseDirectory(DirectoryInfo dir, ParentPage? parentPage = null)
+    private IEnumerable<Page> TraverseDirectory(DirectoryInfo dir, PageParent? parent = null)
     {
         var subDirs = dir.GetDirectories();
         foreach (var subDir in subDirs)
         {
             var page = new Page(ConvertToRelativePath(subDir.FullName), subDir.Name, true)
             {
-                ParentPage = parentPage
+                Parent = parent
             };
 
-            var children = TraverseDirectory(subDir, new ParentPage(page.Id, page.Title, parentPage));
+            var children = TraverseDirectory(subDir, new PageParent(page.Id, page.Title, parent));
             if (!children.Any())
                 continue;
 
@@ -74,7 +74,7 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
 
             yield return new Page(ConvertToRelativePath(file.FullName), file.Name.Remove(file.Name.Length - 3), false)
             {
-                ParentPage = parentPage,
+                Parent = parent,
                 UpdatedTime = DateTimeOffset.Now
             };
         }

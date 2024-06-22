@@ -1,20 +1,20 @@
 ﻿namespace XiaWiki.Core.Models;
 
-public class PageDetail(string path, string title, string author, string content, DateTimeOffset updatedTime)
+public class PageLite(PageId id, string title, string author, string summary, IEnumerable<string> images, DateTimeOffset updatedTime)
 {
-    public string Path { get; } = path;
-
     public string Title { get; } = title;
 
     public string Author { get; } = author;
 
-    public string Content { get; } = content;
+    public string Summary { get; } = summary;
+
+    public IEnumerable<string> Images { get; set; } = images;
 
     public PageParent? Parent { get; set; } = null;
 
     public DateTimeOffset UpdatedTime { get; } = updatedTime;
 
-    public PageId Id = PageId.Create(path);
+    public PageId Id = id;
 
     public IReadOnlyCollection<PageParent> Parents
     {
@@ -47,3 +47,4 @@ public class PageDetail(string path, string title, string author, string content
     }
 
 }
+

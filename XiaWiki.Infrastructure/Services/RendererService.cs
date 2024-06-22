@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Webp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using XiaWiki.Core.Models;
 using XiaWiki.Core.Repositories;
 using XiaWiki.Core.Services;
@@ -128,13 +130,16 @@ internal class RendererService : IRendererService
         using var img = await Image.LoadAsync(stream, cancellationToken);
         //if (img.Metadata.DecodedImageFormat == JpegFormat.Instance) { }
 
-        WebpEncoder encoder = (quality?.ToUpper()) switch
-        {
-            ImageQuality.Low => new WebpEncoder() { Quality = 25 },
-            ImageQuality.Medium => new WebpEncoder() { Quality = 50 },
-            ImageQuality.High => new WebpEncoder() { Quality = 75 },
-            _ => new WebpEncoder() { Quality = 100 },
-        };
+        // WebpEncoder encoder = (quality?.ToUpper()) switch
+        // {
+        //     ImageQuality.Low => new WebpEncoder() { Quality = 10 }, // 25
+        //     ImageQuality.Medium => new WebpEncoder() { Quality = 75 }, // 50
+        //     ImageQuality.High => new WebpEncoder() { Quality = 100 }, // 75
+        //     _ => new WebpEncoder() { Quality = 20 }, // 100
+        // };
+
+        int.TryParse(quality, out var q);
+        var encoder = new WebpEncoder() { Quality = q };
 
         var ms = new MemoryStream();
         await img.SaveAsWebpAsync(ms, encoder, cancellationToken);

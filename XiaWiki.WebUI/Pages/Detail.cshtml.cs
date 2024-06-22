@@ -33,7 +33,7 @@ namespace XiaWiki.WebUI.Pages
             var allPages = pageRepository.GetAll();
             SideNav = new SideNav(allPages.Adapt<IEnumerable<SideNavItem>>(), id);
 
-            var breadcrumbs = pageDetail.ParentPages.Select(x => new Breadcrumb(x.Id.ToString(), x.Title)).ToList();
+            var breadcrumbs = pageDetail.Parents.Select(x => new Breadcrumb(x.Id.ToString(), x.Title)).ToList();
             breadcrumbs.Add(new Breadcrumb(id, pageDetail.Title));
             TopNav = new TopNav(breadcrumbs);
 
