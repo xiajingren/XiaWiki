@@ -20,18 +20,6 @@
     </Content>
   </ItemGroup>
   
-  <ItemGroup>
-    <None Remove="Workspace/DemoPages/读书/鲁迅《狂人日记》.md" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Content Include="Workspace/DemoPages/读书/鲁迅《狂人日记》.md" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Workspace/DemoPages/学习/" />
-  </ItemGroup>
-  
 <!-- 
   <ItemGroup>
     <UpToDateCheckInput Remove="Pages/Shared/_SideNavBar.cshtml" />
