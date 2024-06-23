@@ -7,6 +7,4 @@ public interface IPageDetailRepository
     Task<PageDetail?> GetAsync(PageId id);
 
     IAsyncEnumerable<PageDetail> GetAllAsync();
-
-    IAsyncEnumerable<PageDetail> SearchAsync(string keyword);
 }

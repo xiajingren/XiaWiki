@@ -12,9 +12,13 @@
 
         <div class="col-md-8">
             <div class="container">
-                this is Search page 
-
-                Not yet implemented ...
+                @foreach (var item in Model.SearchResults)
+                {
+                    <div class="mb-3">
+                        <h1>@Html.Raw(item.Title)</h1>
+                        <p>@Html.Raw(item.Summary)</p>
+                    </div>
+                }
             </div>
         </div>
 

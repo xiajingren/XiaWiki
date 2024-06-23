@@ -6,7 +6,7 @@ using XiaWiki.Infrastructure.Search;
 
 namespace XiaWiki.Infrastructure.Repositories;
 
-internal class PageDetailRepository(IPageRepository pageRepository, IOptionsMonitor<RuntimeOption> runtimeOptionDelegate, SearchEngine searchEngine) : IPageDetailRepository
+internal class PageDetailRepository(IPageRepository pageRepository, IOptionsMonitor<RuntimeOption> runtimeOptionDelegate) : IPageDetailRepository
 {
     public async Task<PageDetail?> GetAsync(PageId id)
     {
@@ -32,25 +32,6 @@ internal class PageDetailRepository(IPageRepository pageRepository, IOptionsMoni
         foreach (var pageId in pageIds)
         {
             var page = await GetAsync(pageId);
-
-            if (page is not null)
-                yield return page;
-        }
-    }
-
-    public async IAsyncEnumerable<PageDetail> SearchAsync(string keyword)
-    {
-        var fields = new[] { nameof(PageDoc.Title), nameof(PageDoc.Content) };
-        var boosts = new Dictionary<string, float> {
-            {nameof(PageDoc.Title),5 },
-            {nameof(PageDoc.Content),10 }
-        };
-
-        var docs = searchEngine.Search<PageDoc>(keyword, fields, boosts);
-
-        foreach (var doc in docs)
-        {
-            var page = await GetAsync(PageId.Parse(doc.Id));
 
             if (page is not null)
                 yield return page;

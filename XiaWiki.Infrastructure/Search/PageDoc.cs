@@ -4,9 +4,10 @@ namespace XiaWiki.Infrastructure.Search;
 
 internal class PageDoc : DocBase<PageDoc>
 {
-    public PageDoc(string id, string title) : base(id)
+    public PageDoc(string id, string title, string content) : base(id)
     {
         Title = title;
+        Content = content;
     }
 
     public PageDoc(Document luceneDoc) : base(luceneDoc)
@@ -17,7 +18,7 @@ internal class PageDoc : DocBase<PageDoc>
 
     public string Title { get; set; }
 
-    public string? Content { get; set; }
+    public string Content { get; set; }
 
     public override Document ToLuceneDoc()
     {

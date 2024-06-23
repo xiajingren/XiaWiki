@@ -55,13 +55,13 @@ public class FunctionTests
     }
 
     [Fact]
-    public void SearchPageDetail_HasData()
+    public void SearchPageLite_HasData()
     {
         // Arrange
-        var pageDetailRepository = _serviceProvider.GetRequiredService<IPageDetailRepository>();
+        var pageLiteService = _serviceProvider.GetRequiredService<IPageLiteService>();
 
         // Act
-        var list = pageDetailRepository.SearchAsync("Arduino").ToBlockingEnumerable().ToList();
+        var list = pageLiteService.SearchAsync("故乡").ToBlockingEnumerable().ToList();
 
         // Assert
         Assert.True(list.Count > 0);

@@ -10,6 +10,8 @@ internal class TaskService(ILogger<TaskService> logger, IPageDetailRepository pa
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        await WriteIndex(stoppingToken);
+
         using var timer = new PeriodicTimer(TimeSpan.FromSeconds(60));
         while (await timer.WaitForNextTickAsync(stoppingToken))
         {
@@ -29,10 +31,7 @@ internal class TaskService(ILogger<TaskService> logger, IPageDetailRepository pa
         var docs = new List<PageDoc>();
         await foreach (var item in all)
         {
-            docs.Add(new(item.Id.ToString(), item.Title)
-            {
-                Content = rendererService.ToPlainText(item.Content)
-            });
+            docs.Add(new(item.Id.ToString(), item.Title, rendererService.ToPlainText(item.Content)));
         }
 
         searchEngine.WriteIndex(docs);

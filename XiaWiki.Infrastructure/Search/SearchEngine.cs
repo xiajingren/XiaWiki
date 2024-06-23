@@ -76,7 +76,7 @@ internal class SearchEngine
 
         var hits = searcher.Search(query, 20).ScoreDocs;
 
-        var highlighter = new Highlighter(new SimpleHTMLFormatter("<strong>", "</strong>"), new QueryScorer(query))
+        var highlighter = new Highlighter(new SimpleHTMLFormatter("<strong style='color:red;'>", "</strong>"), new QueryScorer(query))
         {
             TextFragmenter = new SimpleFragmenter(100)
         };

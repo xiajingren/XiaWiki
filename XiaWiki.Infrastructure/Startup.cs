@@ -23,7 +23,7 @@ public static class Startup
         services.AddTransient<IPageRepository, PageRepository>();
         services.AddTransient<IPageDetailRepository, PageDetailRepository>();
         services.AddTransient<IRendererService, RendererService>();
-
+        services.AddTransient<ISearchService, SearchService>();
         services.AddTransient<IPageLiteService, PageLiteService>();
 
         services.AddSingleton<SearchEngine>();

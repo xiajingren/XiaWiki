@@ -43,4 +43,8 @@ window.onload = function () {
             localStorage.removeItem(collapseEl.id)
         })
     });
+
+    document.getElementById("search_btn").onclick = function () {
+        window.location.href = "/s/" + document.getElementById("search_input").value;
+    }
 }
