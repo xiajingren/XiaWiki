@@ -30,7 +30,8 @@ public class SearchModel(IPageRepository pageRepository, IPageLiteService pageLi
                                             page.Title,
                                             page.Summary,
                                             page.Images.FirstOrDefault(),
-                                            page.UpdatedTime));
+                                            page.UpdatedTime,
+                                            page.Parents.Select(x => new Breadcrumb(x.Id.ToString(), x.Title)).ToList()));
             }
         }
 

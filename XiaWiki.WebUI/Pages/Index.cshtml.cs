@@ -33,7 +33,8 @@ public class IndexModel(IPageRepository pageRepository, IPageLiteService pageLit
                                            page.Title,
                                            page.Summary,
                                            AppendQualityToImageUrl(page.Images.FirstOrDefault()),
-                                           page.UpdatedTime));
+                                           page.UpdatedTime,
+                                           page.Parents.Select(x => new Breadcrumb(x.Id.ToString(), x.Title)).ToList()));
         }
         logger.LogWarning("index 4 {time}", DateTimeOffset.Now.ToString());
 
@@ -44,7 +45,8 @@ public class IndexModel(IPageRepository pageRepository, IPageLiteService pageLit
                                         page.Title,
                                         page.Summary,
                                         AppendQualityToImageUrl(page.Images.FirstOrDefault()),
-                                        page.UpdatedTime));
+                                        page.UpdatedTime,
+                                        page.Parents.Select(x => new Breadcrumb(x.Id.ToString(), x.Title)).ToList()));
         }
 
         logger.LogWarning("index 5 {time}", DateTimeOffset.Now.ToString());
