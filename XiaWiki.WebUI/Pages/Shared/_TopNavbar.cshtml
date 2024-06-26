@@ -2,41 +2,62 @@
 @model TopNav
 
 <header class="fixed-top">
-    <nav class="navbar bg-body-tertiary flex-nowrap shadow">
+    <nav class="navbar bg-body-tertiary navbar-expand-md shadow">
         <div class="container-fluid justify-content-md-start">
             <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                data-bs-target="#my-sidebar-box" aria-controls="my-sidebar-box" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a href="/" class="navbar-brand">XiaWiki</a>
 
             @* <div class="vr d-none d-md-block"></div> *@
 
-            @if (Model.Breadcrumbs.Any())
-            {
-                <div aria-label="breadcrumb" class="d-none d-md-block border-start my-breadcrumb">
-                    <ol class="breadcrumb mb-0 ms-3 flex-nowrap">
-                        <li class="breadcrumb-item"><a href="/f">目录</a></li>
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#my-navbar-collapse" aria-controls="my-navbar-collapse" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                        @foreach (var item in Model.Breadcrumbs)
-                        {
-                            if (item == Model.Breadcrumbs.Last())
-                                continue;
+            <div id="my-navbar-collapse" class="my-navbar-collapse collapse navbar-collapse">
+                <ul class="navbar-nav me-0 me-md-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                @if (Model.Breadcrumbs.Any())
+                {
+                    <div aria-label="breadcrumb" class="border-start my-breadcrumb">
+                        <ol class="breadcrumb mb-3 mb-md-0 ms-3 flex-nowrap">
+                            <li class="breadcrumb-item"><a href="/f">目录</a></li>
 
-                            <li class="breadcrumb-item"><a href="/f/@item.Id">@item.Title</a></li>
-                        }
+                            @foreach (var item in Model.Breadcrumbs)
+                            {
+                                if (item == Model.Breadcrumbs.Last())
+                                    continue;
 
-                        <li class="breadcrumb-item active" aria-current="page">@Model.Breadcrumbs.Last().Title</li>
-                    </ol>
-                </div>
-            }
+                                <li class="breadcrumb-item"><a href="/f/@item.Id">@item.Title</a></li>
+                            }
 
-            <form class="d-flex ms-md-auto" role="search">
-                <input id="search_input" class="form-control me-2 d-none d-md-block" type="search" placeholder="搜索内容..."
-                    aria-label="Search">
-                <button id="search_btn" class="btn btn-outline-primary" type="button"
-                    style="word-break: keep-all;">搜索</button>
-            </form>
+                            <li class="breadcrumb-item active" aria-current="page">@Model.Breadcrumbs.Last().Title</li>
+                        </ol>
+                    </div>
+                }
+
+                <form class="d-flex ms-md-auto" role="search">
+                    <div class="my-input-search input-group">
+                        <input id="my-search-input" class="form-control my-search-input" type="search"
+                            placeholder="搜索内容..." aria-label="Search">
+                        <button id="my-search-btn" class="btn btn-outline-primary" type="button"
+                            style="word-break: keep-all;">搜索</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </nav>
 </header>

@@ -1,5 +1,23 @@
-.my-breadcrumb {
-    max-width: calc(100% - 400px);
+@media (min-width: 768px) {
+    /* .my-breadcrumb {
+        max-width: calc(100% - 400px);
+    } */
+
+    .my-search-input {
+        width: 200px;
+        transition: width .3s;
+    }
+
+    .my-search-input:focus {
+        width: 400px;
+        transition: width .3s;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .my-navbar-collapse {
+        max-width: 100%;
+    }
 }
 
 .breadcrumb a {

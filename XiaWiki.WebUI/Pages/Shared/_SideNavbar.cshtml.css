@@ -1,3 +1,7 @@
+.my-page-tree {
+    min-width: 240px;
+}
+
 a {
     white-space: nowrap;
     overflow: hidden;

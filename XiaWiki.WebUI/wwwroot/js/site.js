@@ -44,7 +44,7 @@ window.onload = function () {
         })
     });
 
-    document.getElementById("search_btn").onclick = function () {
-        window.location.href = "/s/" + document.getElementById("search_input").value;
+    document.getElementById("my-search-btn").onclick = function () {
+        window.location.href = "/s/" + document.getElementById("my-search-input").value;
     }
 }
