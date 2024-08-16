@@ -101,14 +101,14 @@ internal class RendererService : IRendererService
     }
 
     public static async Task<IResult> MediaServer(string id, string path, [FromQuery(Name = "q")] string? quality,
-            HttpContext context, IPageRepository pageRepository, IOptionsMonitor<RuntimeOption> runtimeOptionDelegate, CancellationToken cancellationToken)
+            HttpContext context, IPageRepository pageRepository, IOptionsMonitor<WikiOption> wikiOptionDelegate, CancellationToken cancellationToken)
     {
         var page = pageRepository.GetPageById(PageId.Parse(id));
 
         if (page is null)
             return Results.NotFound();
 
-        var option = runtimeOptionDelegate.CurrentValue;
+        var option = wikiOptionDelegate.CurrentValue;
 
         var mediaFile = new FileInfo($"{option.PagesDir}{page.FolderPath}{path.FromBase64Url()}");
         if (mediaFile is null || !mediaFile.Exists)

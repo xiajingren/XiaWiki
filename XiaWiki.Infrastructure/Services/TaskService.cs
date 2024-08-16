@@ -1,27 +1,51 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using XiaWiki.Core.Repositories;
 using XiaWiki.Core.Services;
+using XiaWiki.Infrastructure.Helpers;
+using XiaWiki.Infrastructure.Options;
 using XiaWiki.Infrastructure.Search;
 
 namespace XiaWiki.Infrastructure.Services;
 
-internal class TaskService(ILogger<TaskService> logger, IPageDetailRepository pageDetailRepository, SearchEngine searchEngine, IRendererService rendererService) : BackgroundService
+internal class TaskService(ILogger<TaskService> logger,
+    IPageDetailRepository pageDetailRepository,
+    SearchEngine searchEngine,
+    IRendererService rendererService,
+    IOptionsMonitor<WikiOption> wikiOptionDelegate,
+    GitCmdHelper gitCmdHelper) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await WriteIndex(stoppingToken);
+        await InternalExecuteAsync(stoppingToken);
 
         using var timer = new PeriodicTimer(TimeSpan.FromSeconds(60));
         while (await timer.WaitForNextTickAsync(stoppingToken))
         {
-            logger.LogInformation("task runing... {time}", DateTimeOffset.Now);
-
-            // 1. git pull
-
-            // 2. write index
-            await WriteIndex(stoppingToken);
+            await InternalExecuteAsync(stoppingToken);
         }
+    }
+
+    private async Task InternalExecuteAsync(CancellationToken stoppingToken)
+    {
+        logger.LogInformation("task runing... {time}", DateTimeOffset.Now);
+
+        // 1. git pull
+        await PullDocs();
+
+        // 2. write index
+        await WriteIndex(stoppingToken);
+    }
+
+    private async Task PullDocs()
+    {
+        var option = wikiOptionDelegate.CurrentValue;
+
+        if (!await gitCmdHelper.GitCheck())
+            return;
+
+        var cloneResult = await gitCmdHelper.GitCloneDocs();
     }
 
     private async Task WriteIndex(CancellationToken cancellationToken = default)

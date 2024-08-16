@@ -6,7 +6,7 @@ using XiaWiki.Infrastructure.Search;
 
 namespace XiaWiki.Infrastructure.Repositories;
 
-internal class PageDetailRepository(IPageRepository pageRepository, IOptionsMonitor<RuntimeOption> runtimeOptionDelegate) : IPageDetailRepository
+internal class PageDetailRepository(IPageRepository pageRepository, IOptionsMonitor<WikiOption> wikiOptionDelegate) : IPageDetailRepository
 {
     public async Task<PageDetail?> GetAsync(PageId id)
     {
@@ -18,7 +18,7 @@ internal class PageDetailRepository(IPageRepository pageRepository, IOptionsMoni
         if (page.IsFolder)
             throw new ApplicationException($"{id} is a folder..."); // todo: domain exception
 
-        var option = runtimeOptionDelegate.CurrentValue;
+        var option = wikiOptionDelegate.CurrentValue;
 
         var content = await File.ReadAllTextAsync($"{option.PagesDir}{page.Path}");
 

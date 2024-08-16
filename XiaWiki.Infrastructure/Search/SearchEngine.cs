@@ -16,16 +16,16 @@ namespace XiaWiki.Infrastructure.Search;
 internal class SearchEngine
 {
     private readonly FSDirectory _fSDirectory;
-    private readonly IOptionsMonitor<RuntimeOption> _runtimeOptionDelegate;
+    private readonly IOptionsMonitor<WikiOption> _wikiOptionDelegate;
     private const LuceneVersion luceneVersion = LuceneVersion.LUCENE_48;
 
     private readonly Analyzer analyzer = new StandardAnalyzer(luceneVersion);
 
-    public SearchEngine(IOptionsMonitor<RuntimeOption> runtimeOptionDelegate)
+    public SearchEngine(IOptionsMonitor<WikiOption> wikiOptionDelegate)
     {
-        _runtimeOptionDelegate = runtimeOptionDelegate;
+        _wikiOptionDelegate = wikiOptionDelegate;
 
-        var options = _runtimeOptionDelegate.CurrentValue;
+        var options = _wikiOptionDelegate.CurrentValue;
 
         _fSDirectory = FSDirectory.Open(options.LuceneDir);
     }

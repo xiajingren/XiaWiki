@@ -6,13 +6,13 @@ using XiaWiki.Shared.Extensions;
 
 namespace XiaWiki.Infrastructure.Repositories;
 
-internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelegate) : IPageRepository
+internal class PageRepository(IOptionsMonitor<WikiOption> wikiOptionDelegate) : IPageRepository
 {
-    private readonly IOptionsMonitor<RuntimeOption> _runtimeOptionDelegate = runtimeOptionDelegate;
+    private readonly IOptionsMonitor<WikiOption> _wikiOptionDelegate = wikiOptionDelegate;
 
     public IEnumerable<Page> GetAll()
     {
-        var option = _runtimeOptionDelegate.CurrentValue;
+        var option = _wikiOptionDelegate.CurrentValue;
 
         var workspaceDir = new DirectoryInfo(option.PagesDir);
 
@@ -92,7 +92,7 @@ internal class PageRepository(IOptionsMonitor<RuntimeOption> runtimeOptionDelega
 
     private string ConvertToRelativePath(string path)
     {
-        var option = _runtimeOptionDelegate.CurrentValue;
+        var option = _wikiOptionDelegate.CurrentValue;
 
         return path.Replace(option.PagesDir, string.Empty).Replace('\\', '/');
     }

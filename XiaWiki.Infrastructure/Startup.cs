@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using XiaWiki.Core.Repositories;
 using XiaWiki.Core.Services;
+using XiaWiki.Infrastructure.Helpers;
 using XiaWiki.Infrastructure.Options;
 using XiaWiki.Infrastructure.Repositories;
 using XiaWiki.Infrastructure.Search;
@@ -14,11 +15,13 @@ public static class Startup
 {
     public static IServiceCollection AddWiki(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<RuntimeOption>(x =>
-        {
-            x.Workspace = configuration["Runtime:Workspace"] ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Workspace");
-            //Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), nameof(XiaWiki));
-        });
+        // services.Configure<WikiOption>(x =>
+        // {
+        //     x.Workspace = configuration["Runtime:Workspace"] ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Workspace");
+        //     //Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), nameof(XiaWiki));
+        // });
+
+        services.Configure<WikiOption>(configuration.GetSection("Wiki"));
 
         services.AddTransient<IPageRepository, PageRepository>();
         services.AddTransient<IPageDetailRepository, PageDetailRepository>();
@@ -27,6 +30,7 @@ public static class Startup
         services.AddTransient<IPageLiteService, PageLiteService>();
 
         services.AddSingleton<SearchEngine>();
+        services.AddSingleton<GitCmdHelper>();
 
         services.AddHostedService<TaskService>();
 
