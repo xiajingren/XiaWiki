@@ -18,9 +18,9 @@ internal class WikiOption
 
     public string GitRepository { get; set; } = string.Empty;
 
-    public string LuceneDir => $"{Workspace}/Lucene";
+    public string LuceneDir => $"{Workspace}/lucene";
 
     public string PagesDir => $"{Workspace}/{PagesFolderName}";
 
-    public string PagesFolderName = $"Docs";
+    public string PagesFolderName = $"docs";
 }

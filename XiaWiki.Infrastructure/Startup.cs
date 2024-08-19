@@ -3,7 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using XiaWiki.Core.Repositories;
 using XiaWiki.Core.Services;
-using XiaWiki.Infrastructure.Helpers;
+using XiaWiki.Infrastructure.Cache;
+using XiaWiki.Infrastructure.Git;
 using XiaWiki.Infrastructure.Options;
 using XiaWiki.Infrastructure.Repositories;
 using XiaWiki.Infrastructure.Search;
@@ -30,9 +31,12 @@ public static class Startup
         services.AddTransient<IPageLiteService, PageLiteService>();
 
         services.AddSingleton<SearchEngine>();
-        services.AddSingleton<GitCmdHelper>();
+        services.AddSingleton<GitCmdUtils>();
+        services.AddSingleton<CacheUtils>();
 
         services.AddHostedService<TaskService>();
+
+        services.AddMemoryCache();
 
         return services;
     }

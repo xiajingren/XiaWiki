@@ -3,17 +3,17 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using XiaWiki.Infrastructure.Options;
 
-namespace XiaWiki.Infrastructure.Helpers;
+namespace XiaWiki.Infrastructure.Git;
 
-internal class GitCmdHelper(IOptionsMonitor<WikiOption> wikiOptionDelegate, ILogger<GitCmdHelper> logger)
+internal class GitCmdUtils(IOptionsMonitor<WikiOption> wikiOptionDelegate, ILogger<GitCmdUtils> logger)
 {
     public async Task<bool> GitCheck()
     {
         try
         {
-            var gitVer = await GitVersion();
+            var (successed, _) = await GitVersion();
 
-            return gitVer?.StartsWith("git version") ?? false;
+            return successed;
         }
         catch (Exception ex)
         {
@@ -22,19 +22,26 @@ internal class GitCmdHelper(IOptionsMonitor<WikiOption> wikiOptionDelegate, ILog
         }
     }
 
-    public async Task<string> GitVersion()
+    public async Task<(bool, string)> GitVersion()
     {
         return await ExecGitCommamd("--version");
     }
 
-    public async Task<string> GitCloneDocs()
+    public async Task<(bool, string)> GitCloneDocs()
     {
         var option = wikiOptionDelegate.CurrentValue;
 
         return await ExecGitCommamd($"clone {option.GitRepository} {option.PagesFolderName}", option.Workspace);
     }
 
-    private async Task<string> ExecGitCommamd(string args, string? workingDir = null)
+    public async Task<(bool, string)> GitPullDocs()
+    {
+        var option = wikiOptionDelegate.CurrentValue;
+
+        return await ExecGitCommamd($"pull", option.PagesDir);
+    }
+
+    private async Task<(bool, string)> ExecGitCommamd(string args, string? workingDir = null)
     {
         var startInfo = new ProcessStartInfo
         {
@@ -53,7 +60,7 @@ internal class GitCmdHelper(IOptionsMonitor<WikiOption> wikiOptionDelegate, ILog
 
         using var process = Process.Start(startInfo);
         if (process is null)
-            return string.Empty;
+            return (false, string.Empty);
 
         await process.WaitForExitAsync();
 
@@ -64,6 +71,6 @@ internal class GitCmdHelper(IOptionsMonitor<WikiOption> wikiOptionDelegate, ILog
 
         logger.LogInformation($"{nameof(ExecGitCommamd)}:Output={output},Error={error}");
 
-        return output;
+        return string.IsNullOrEmpty(error) ? (true, output) : (false, error);
     }
 }

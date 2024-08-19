@@ -1,50 +1,67 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Diagnostics;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using XiaWiki.Core.Models;
 using XiaWiki.Core.Repositories;
+using XiaWiki.Infrastructure.Cache;
 using XiaWiki.Infrastructure.Options;
 using XiaWiki.Shared.Extensions;
 
 namespace XiaWiki.Infrastructure.Repositories;
 
-internal class PageRepository(IOptionsMonitor<WikiOption> wikiOptionDelegate) : IPageRepository
+internal class PageRepository(IOptionsMonitor<WikiOption> wikiOptionDelegate, IMemoryCache memoryCache, ILogger<PageRepository> logger) : IPageRepository
 {
     private readonly IOptionsMonitor<WikiOption> _wikiOptionDelegate = wikiOptionDelegate;
 
     public IEnumerable<Page> GetAll()
     {
-        var option = _wikiOptionDelegate.CurrentValue;
+        return memoryCache.GetOrCreate(CacheKeys.PagesGetAll, entry =>
+        {
+            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(1);
 
-        var workspaceDir = new DirectoryInfo(option.PagesDir);
+            var option = _wikiOptionDelegate.CurrentValue;
 
-        if (workspaceDir is null || !workspaceDir.Exists)
-            throw new ApplicationException("workspace is not exists...");
+            var workspaceDir = new DirectoryInfo(option.PagesDir);
 
-        return TraverseDirectory(workspaceDir);
+            if (workspaceDir is null || !workspaceDir.Exists)
+            {
+                logger.LogError("workspace/docs is not exists...");
+                return [];
+            }
+
+            return TraverseDirectory(workspaceDir);
+        })!;
     }
 
     public IDictionary<string, Page> GetAllWithoutChildren()
     {
-        var result = new Dictionary<string, Page>();
-
-        var pages = GetAll();
-
-        void addToDict(IEnumerable<Page> pages)
+        return memoryCache.GetOrCreate(CacheKeys.PagesGetAllWithoutChildren, entry =>
         {
-            foreach (var page in pages)
+            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(1);
+
+            var result = new Dictionary<string, Page>();
+
+            var pages = GetAll();
+
+            void addToDict(IEnumerable<Page> pages)
             {
-                result[page.Id.ToString()] = page;
+                foreach (var page in pages)
+                {
+                    result[page.Id.ToString()] = page;
 
-                if (!page.Children.Any())
-                    continue;
+                    if (!page.Children.Any())
+                        continue;
 
-                addToDict(page.Children);
-                page.Children = [];
+                    addToDict(page.Children);
+                    page.Children = [];
+                }
             }
-        }
 
-        addToDict(pages);
+            addToDict(pages);
 
-        return result;
+            return result;
+        })!;
     }
 
     private IEnumerable<Page> TraverseDirectory(DirectoryInfo dir, PageParent? parent = null)

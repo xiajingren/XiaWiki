@@ -3,7 +3,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using XiaWiki.Core.Repositories;
 using XiaWiki.Core.Services;
-using XiaWiki.Infrastructure.Helpers;
+using XiaWiki.Infrastructure.Cache;
+using XiaWiki.Infrastructure.Git;
 using XiaWiki.Infrastructure.Options;
 using XiaWiki.Infrastructure.Search;
 
@@ -14,13 +15,14 @@ internal class TaskService(ILogger<TaskService> logger,
     SearchEngine searchEngine,
     IRendererService rendererService,
     IOptionsMonitor<WikiOption> wikiOptionDelegate,
-    GitCmdHelper gitCmdHelper) : BackgroundService
+    GitCmdUtils gitCmdUtils,
+    CacheUtils cacheUtils) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         await InternalExecuteAsync(stoppingToken);
 
-        using var timer = new PeriodicTimer(TimeSpan.FromSeconds(60));
+        using var timer = new PeriodicTimer(TimeSpan.FromHours(1));
         while (await timer.WaitForNextTickAsync(stoppingToken))
         {
             await InternalExecuteAsync(stoppingToken);
@@ -30,22 +32,39 @@ internal class TaskService(ILogger<TaskService> logger,
     private async Task InternalExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("task runing... {time}", DateTimeOffset.Now);
+        var option = wikiOptionDelegate.CurrentValue;
+        logger.LogInformation("workspace={workspace}", option.Workspace);
 
         // 1. git pull
-        await PullDocs();
+        // await PullDocs();
+
+        cacheUtils.RemovePagesCache();
 
         // 2. write index
         await WriteIndex(stoppingToken);
     }
 
-    private async Task PullDocs()
+    private async Task<bool> PullDocs()
     {
         var option = wikiOptionDelegate.CurrentValue;
 
-        if (!await gitCmdHelper.GitCheck())
-            return;
+        if (!await gitCmdUtils.GitCheck())
+        {
+            logger.LogError("Please check the Git environment...");
+            return false;
+        }
 
-        var cloneResult = await gitCmdHelper.GitCloneDocs();
+        if (Directory.Exists(option.PagesDir))
+        {
+            var (pullSuccessed, pullResult) = await gitCmdUtils.GitPullDocs();
+            if (pullSuccessed)
+                return pullResult.StartsWith("Already up to date.");
+
+            Directory.Delete(option.PagesDir, true);
+        }
+
+        var (cloneSuccessed, _) = await gitCmdUtils.GitCloneDocs();
+        return cloneSuccessed;
     }
 
     private async Task WriteIndex(CancellationToken cancellationToken = default)

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using XiaWiki.Core.Models;
 using XiaWiki.Core.Repositories;
 using XiaWiki.Infrastructure.Options;
@@ -6,7 +7,7 @@ using XiaWiki.Infrastructure.Search;
 
 namespace XiaWiki.Infrastructure.Repositories;
 
-internal class PageDetailRepository(IPageRepository pageRepository, IOptionsMonitor<WikiOption> wikiOptionDelegate) : IPageDetailRepository
+internal class PageDetailRepository(IPageRepository pageRepository, IOptionsMonitor<WikiOption> wikiOptionDelegate, ILogger<PageDetailRepository> logger) : IPageDetailRepository
 {
     public async Task<PageDetail?> GetAsync(PageId id)
     {
@@ -32,6 +33,8 @@ internal class PageDetailRepository(IPageRepository pageRepository, IOptionsMoni
         foreach (var pageId in pageIds)
         {
             var page = await GetAsync(pageId);
+
+            logger.LogInformation("GetAllAsync {id} {time} ", pageId, DateTimeOffset.Now);
 
             if (page is not null)
                 yield return page;
