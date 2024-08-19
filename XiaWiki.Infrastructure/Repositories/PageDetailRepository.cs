@@ -34,7 +34,7 @@ internal class PageDetailRepository(IPageRepository pageRepository, IOptionsMoni
         {
             var page = await GetAsync(pageId);
 
-            logger.LogInformation("GetAllAsync {id} {time} ", pageId, DateTimeOffset.Now);
+            //logger.LogInformation("GetAllAsync {id} {time} ", pageId, DateTimeOffset.Now);
 
             if (page is not null)
                 yield return page;

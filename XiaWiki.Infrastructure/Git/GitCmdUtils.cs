@@ -41,6 +41,13 @@ internal class GitCmdUtils(IOptionsMonitor<WikiOption> wikiOptionDelegate, ILogg
         return await ExecGitCommamd($"pull", option.PagesDir);
     }
 
+    public async Task<(bool, string)> GitStatus()
+    {
+        var option = wikiOptionDelegate.CurrentValue;
+
+        return await ExecGitCommamd($"status", option.PagesDir);
+    }
+
     private async Task<(bool, string)> ExecGitCommamd(string args, string? workingDir = null)
     {
         var startInfo = new ProcessStartInfo

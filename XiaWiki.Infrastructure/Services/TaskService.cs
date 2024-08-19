@@ -58,7 +58,11 @@ internal class TaskService(ILogger<TaskService> logger,
         {
             var (pullSuccessed, pullResult) = await gitCmdUtils.GitPullDocs();
             if (pullSuccessed)
-                return pullResult.StartsWith("Already up to date.");
+                return !pullResult.StartsWith("Already up to date.");
+
+            var (statusSuccessed, _) = await gitCmdUtils.GitStatus();
+            if (statusSuccessed)
+                return false;
 
             Directory.Delete(option.PagesDir, true);
         }

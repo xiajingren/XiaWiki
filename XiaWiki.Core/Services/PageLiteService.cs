@@ -1,6 +1,5 @@
 ﻿using XiaWiki.Core.Models;
 using XiaWiki.Core.Repositories;
-using XiaWiki.Shared.Extensions;
 
 namespace XiaWiki.Core.Services;
 

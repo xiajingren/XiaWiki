@@ -19,16 +19,16 @@
                     <div class="mb-3">
                         <div class="d-flex align-items-center">
                             <a class="fs-3" href="/p/@item.Id">@Html.Raw(item.Title)</a>
-                            <div aria-label="breadcrumb" class="ms-3 border-start">
-                                <ol class="breadcrumb flex-nowrap ms-3 mb-0">
-                                    <li class="breadcrumb-item"><a href="/f">目录</a></li>
+                            @* <div aria-label="breadcrumb" class="ms-3 border-start">
+                        <ol class="breadcrumb flex-nowrap ms-3 mb-0">
+                        <li class="breadcrumb-item"><a href="/f">目录</a></li>
 
-                                    @foreach (var navitem in item.Breadcrumbs)
-                                    {
-                                        <li class="breadcrumb-item"><a href="/f/@navitem.Id">@navitem.Title</a></li>
-                                    }
-                                </ol>
-                            </div>
+                        @foreach (var navitem in item.Breadcrumbs)
+                        {
+                        <li class="breadcrumb-item"><a href="/f/@navitem.Id">@navitem.Title</a></li>
+                        }
+                        </ol>
+                        </div> *@
                         </div>
                         <p><small class="text-body-secondary pe-3">@item.UpdatedTime</small>@Html.Raw(item.Summary)</p>
                     </div>

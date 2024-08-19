@@ -26,10 +26,4 @@
     <ProjectReference Include="..\XiaWiki.Infrastructure\XiaWiki.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include=".\Workspace\**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
 </Project>
